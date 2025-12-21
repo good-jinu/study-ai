@@ -1,0 +1,23 @@
+{
+	"name": "study-ai",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "pnpm --filter @study-ai/web dev",
+		"check:fix": "biome check --write",
+		"check:fix:unsafe": "biome check --write --unsafe",
+		"check": "biome check",
+		"prod-deploy": "sst deploy --stage production",
+		"sst:dev": "sst dev --stage developement",
+		"prod-remove": "sst remove --stage production",
+		"dev-remove": "sst remove --stage developement"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2",
+		"@types/node": "^20",
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"sst": "^3.17"
+	}
+}

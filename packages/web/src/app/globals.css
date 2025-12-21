@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+:root {
+  /* Base colors */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.05 0 0);
+  --primary: oklch(0.85 0.2 161);
+  
+  /* Semantic colors for study platform */
+  --card-background: oklch(0.98 0 0);
+  --card-border: oklch(0.9 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.45 0 0);
+  
+  /* Content type colors */
+  --flashcard-primary: oklch(0.6 0.15 250);
+  --flashcard-secondary: oklch(0.55 0.15 250);
+  --quiz-primary: oklch(0.65 0.15 30);
+  --quiz-secondary: oklch(0.6 0.15 30);
+  --lesson-primary: oklch(0.65 0.15 280);
+  --lesson-secondary: oklch(0.6 0.15 280);
+  
+  /* State colors */
+  --success: oklch(0.6 0.15 140);
+  --success-foreground: oklch(0.98 0 0);
+  --success-muted: oklch(0.95 0.05 140);
+  --error: oklch(0.6 0.15 20);
+  --error-foreground: oklch(0.98 0 0);
+  --error-muted: oklch(0.95 0.05 20);
+  --warning: oklch(0.7 0.15 60);
+  --warning-foreground: oklch(0.1 0 0);
+  --warning-muted: oklch(0.95 0.05 60);
+  
+  /* Interactive states */
+  --accent: oklch(0.9 0.05 250);
+  --accent-foreground: oklch(0.1 0 0);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.95 0 0);
+  --ring: oklch(0.85 0.2 161);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-card-background: var(--card-background);
+  --color-card-border: var(--card-border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-flashcard-primary: var(--flashcard-primary);
+  --color-flashcard-secondary: var(--flashcard-secondary);
+  --color-quiz-primary: var(--quiz-primary);
+  --color-quiz-secondary: var(--quiz-secondary);
+  --color-lesson-primary: var(--lesson-primary);
+  --color-lesson-secondary: var(--lesson-secondary);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-muted: var(--success-muted);
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
+  --color-error-muted: var(--error-muted);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-muted: var(--warning-muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Base colors */
+    --background: oklch(0.1 0 0);
+    --foreground: oklch(0.975 0 0);
+    --primary: oklch(0.85 0.2 161);
+    
+    /* Semantic colors for study platform */
+    --card-background: oklch(0.15 0 0);
+    --card-border: oklch(0.25 0 0);
+    --muted: oklch(0.2 0 0);
+    --muted-foreground: oklch(0.65 0 0);
+    
+    /* Content type colors */
+    --flashcard-primary: oklch(0.7 0.15 250);
+    --flashcard-secondary: oklch(0.65 0.15 250);
+    --quiz-primary: oklch(0.75 0.15 30);
+    --quiz-secondary: oklch(0.7 0.15 30);
+    --lesson-primary: oklch(0.75 0.15 280);
+    --lesson-secondary: oklch(0.7 0.15 280);
+    
+    /* State colors */
+    --success: oklch(0.7 0.15 140);
+    --success-foreground: oklch(0.1 0 0);
+    --success-muted: oklch(0.2 0.05 140);
+    --error: oklch(0.7 0.15 20);
+    --error-foreground: oklch(0.1 0 0);
+    --error-muted: oklch(0.2 0.05 20);
+    --warning: oklch(0.8 0.15 60);
+    --warning-foreground: oklch(0.1 0 0);
+    --warning-muted: oklch(0.2 0.05 60);
+    
+    /* Interactive states */
+    --accent: oklch(0.25 0.05 250);
+    --accent-foreground: oklch(0.9 0 0);
+    --border: oklch(0.25 0 0);
+    --input: oklch(0.2 0 0);
+    --ring: oklch(0.85 0.2 161);
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
