@@ -43,8 +43,9 @@ function Button({
 	const classes = cn(baseClasses, variants[variant], sizes[size], className);
 
 	if (asChild && children) {
-		return cloneElement(children as ReactElement, {
-			className: cn(classes, (children as ReactElement).props?.className),
+		const child = children as ReactElement<{ className?: string }>;
+		return cloneElement(child, {
+			className: cn(classes, child.props.className),
 			...props,
 		});
 	}

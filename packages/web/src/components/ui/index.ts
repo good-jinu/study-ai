@@ -28,5 +28,5 @@ export { KeyPointsList } from "./KeyPointsList";
 export { Label, type LabelProps } from "./Label";
 export { MetadataDisplay } from "./MetadataDisplay";
 export { Select, type SelectProps } from "./Select";
-export { Spinner } from "./Spinner";
+export { default as Spinner } from "./Spinner";
 export { Textarea, type TextareaProps } from "./Textarea";
