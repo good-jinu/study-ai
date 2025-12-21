@@ -15,7 +15,8 @@ export default $config({
 				contentId: "string",
 				createdAt: "string",
 				authorId: "string",
-				status: "string",
+				type: "string",
+				subject: "string",
 			},
 			primaryIndex: { hashKey: "contentId" },
 			globalIndexes: {
@@ -24,8 +25,13 @@ export default $config({
 					rangeKey: "createdAt",
 					projection: "all",
 				},
-				StatusIndex: {
-					hashKey: "status",
+				TypeIndex: {
+					hashKey: "type",
+					rangeKey: "createdAt",
+					projection: "all",
+				},
+				SubjectIndex: {
+					hashKey: "subject",
 					rangeKey: "createdAt",
 					projection: "all",
 				},

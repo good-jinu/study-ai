@@ -107,43 +107,43 @@ export interface ContentFetchParams {
 export const isFlashcardContent = (
 	content: unknown,
 ): content is FlashcardContent => {
-	return (
+	return !!(
 		content &&
 		typeof content === "object" &&
 		"question" in content &&
 		"answer" in content &&
-		typeof content.question === "string" &&
-		typeof content.answer === "string"
+		typeof (content as Record<string, unknown>).question === "string" &&
+		typeof (content as Record<string, unknown>).answer === "string"
 	);
 };
 
 export const isQuizContent = (content: unknown): content is QuizContent => {
-	return (
+	return !!(
 		content &&
 		typeof content === "object" &&
 		"question" in content &&
 		"options" in content &&
 		"correctAnswer" in content &&
-		typeof content.question === "string" &&
-		Array.isArray(content.options) &&
-		typeof content.correctAnswer === "number"
+		typeof (content as Record<string, unknown>).question === "string" &&
+		Array.isArray((content as Record<string, unknown>).options) &&
+		typeof (content as Record<string, unknown>).correctAnswer === "number"
 	);
 };
 
 export const isLessonContent = (content: unknown): content is LessonContent => {
-	return (
+	return !!(
 		content &&
 		typeof content === "object" &&
 		"sections" in content &&
-		Array.isArray(content.sections) &&
-		content.sections.every(
+		Array.isArray((content as Record<string, unknown>).sections) &&
+		(content as Record<string, unknown>).sections.every(
 			(section: unknown) =>
 				section &&
 				typeof section === "object" &&
 				"heading" in section &&
 				"body" in section &&
-				typeof section.heading === "string" &&
-				typeof section.body === "string",
+				typeof (section as Record<string, unknown>).heading === "string" &&
+				typeof (section as Record<string, unknown>).body === "string",
 		)
 	);
 };
@@ -151,11 +151,11 @@ export const isLessonContent = (content: unknown): content is LessonContent => {
 export const isSummaryContent = (
 	content: unknown,
 ): content is SummaryContent => {
-	return (
+	return !!(
 		content &&
 		typeof content === "object" &&
 		"summary" in content &&
-		typeof content.summary === "string"
+		typeof (content as Record<string, unknown>).summary === "string"
 	);
 };
 
@@ -169,27 +169,41 @@ export const isValidStudyContent = (item: unknown): item is StudyContent => {
 		!("id" in item) ||
 		!("title" in item) ||
 		!("type" in item) ||
-		typeof item.id !== "string" ||
-		typeof item.title !== "string"
+		typeof (item as Record<string, unknown>).id !== "string" ||
+		typeof (item as Record<string, unknown>).title !== "string"
 	) {
 		return false;
 	}
 
 	const validTypes: ContentType[] = ["flashcard", "quiz", "lesson", "summary"];
-	if (!validTypes.includes(item.type as ContentType)) {
+	if (
+		!validTypes.includes((item as Record<string, unknown>).type as ContentType)
+	) {
 		return false;
 	}
 
 	// Validate content based on type
-	switch (item.type) {
+	switch ((item as Record<string, unknown>).type) {
 		case "flashcard":
-			return "content" in item && isFlashcardContent(item.content);
+			return (
+				"content" in item &&
+				isFlashcardContent((item as Record<string, unknown>).content)
+			);
 		case "quiz":
-			return "content" in item && isQuizContent(item.content);
+			return (
+				"content" in item &&
+				isQuizContent((item as Record<string, unknown>).content)
+			);
 		case "lesson":
-			return "content" in item && isLessonContent(item.content);
+			return (
+				"content" in item &&
+				isLessonContent((item as Record<string, unknown>).content)
+			);
 		case "summary":
-			return "content" in item && isSummaryContent(item.content);
+			return (
+				"content" in item &&
+				isSummaryContent((item as Record<string, unknown>).content)
+			);
 		default:
 			return false;
 	}
