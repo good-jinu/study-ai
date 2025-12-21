@@ -13,9 +13,18 @@ export const EndOfContent: React.FC<EndOfContentProps> = ({
 	onRetry,
 }) => {
 	return (
-		<div className="h-full flex items-center justify-center bg-background p-6">
+		<output
+			className="h-full flex items-center justify-center bg-background p-6"
+			aria-live="polite"
+		>
 			<div className="text-center max-w-md">
-				<div className="text-6xl mb-4">🎉</div>
+				<div
+					className="text-6xl mb-4"
+					role="img"
+					aria-label="Celebration emoji"
+				>
+					🎉
+				</div>
 				<h2 className="text-xl font-semibold text-foreground mb-2">
 					Great job studying!
 				</h2>
@@ -25,7 +34,8 @@ export const EndOfContent: React.FC<EndOfContentProps> = ({
 					<button
 						type="button"
 						onClick={onRetry}
-						className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+						className="px-6 py-3 bg-primary text-background rounded-lg hover:opacity-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background active:scale-95"
+						aria-label="Check for new study content"
 					>
 						Check for new content
 					</button>
@@ -35,7 +45,7 @@ export const EndOfContent: React.FC<EndOfContentProps> = ({
 					<p>Come back later for more study materials!</p>
 				</div>
 			</div>
-		</div>
+		</output>
 	);
 };
 

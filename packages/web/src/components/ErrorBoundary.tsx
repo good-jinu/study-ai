@@ -62,8 +62,18 @@ export class ErrorBoundary extends Component<Props, State> {
 			}
 
 			return (
-				<div className="flex flex-col items-center justify-center min-h-[400px] p-6 text-center bg-background">
-					<div className="text-error text-4xl mb-4">⚠️</div>
+				<div
+					className="flex flex-col items-center justify-center min-h-[400px] p-6 text-center bg-background"
+					role="alert"
+					aria-live="assertive"
+				>
+					<div
+						className="text-error text-4xl mb-4"
+						role="img"
+						aria-label="Warning icon"
+					>
+						⚠️
+					</div>
 					<h2 className="text-xl font-semibold text-foreground mb-2">
 						Something went wrong
 					</h2>
@@ -78,7 +88,7 @@ export class ErrorBoundary extends Component<Props, State> {
 						{/* Error details for development */}
 						{process.env.NODE_ENV === "development" && this.state.error && (
 							<details className="mt-6 text-left max-w-lg">
-								<summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
+								<summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background rounded">
 									Error Details (Development)
 								</summary>
 								<div className="mt-2 p-4 bg-muted rounded-lg text-xs font-mono text-muted-foreground overflow-auto">

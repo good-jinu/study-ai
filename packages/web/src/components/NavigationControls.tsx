@@ -133,7 +133,7 @@ export const NavigationControls: React.FC<NavigationControlsProps> = ({
 		<div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
 			<nav
 				ref={containerRef}
-				className="flex items-center gap-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-gray-200/50 dark:border-gray-700/50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900"
+				className="flex items-center gap-4 bg-card-background/90 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-card-border focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
 				aria-label="Content navigation controls"
 				onClick={handleContainerFocus}
 				onKeyDown={handleContainerKeyDown}
@@ -145,11 +145,11 @@ export const NavigationControls: React.FC<NavigationControlsProps> = ({
 					disabled={!hasPrev || isLoading}
 					className={`
             flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200
-            focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900
+            focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background
             ${
 							!hasPrev || isLoading
-								? "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed"
-								: "bg-primary text-white hover:bg-primary/90 active:scale-95 shadow-md hover:shadow-lg"
+								? "bg-muted text-muted-foreground cursor-not-allowed"
+								: "bg-primary text-background hover:opacity-90 active:scale-95 shadow-md hover:shadow-lg"
 						}
           `}
 					aria-label="Previous content (Left arrow key)"
@@ -180,12 +180,12 @@ export const NavigationControls: React.FC<NavigationControlsProps> = ({
 
 				{/* Content Position Indicator */}
 				{currentIndex !== undefined && totalCount !== undefined && (
-					<div className="flex items-center gap-2 px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full">
-						<span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+					<div className="flex items-center gap-2 px-3 py-1 bg-muted rounded-full">
+						<span className="text-sm font-medium text-foreground">
 							{currentIndex + 1}
 						</span>
-						<span className="text-xs text-gray-500 dark:text-gray-400">of</span>
-						<span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<span className="text-xs text-muted-foreground">of</span>
+						<span className="text-sm font-medium text-foreground">
 							{totalCount}
 						</span>
 					</div>
@@ -198,11 +198,11 @@ export const NavigationControls: React.FC<NavigationControlsProps> = ({
 					disabled={!hasNext || isLoading}
 					className={`
             flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200
-            focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900
+            focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background
             ${
 							!hasNext || isLoading
-								? "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed"
-								: "bg-primary text-white hover:bg-primary/90 active:scale-95 shadow-md hover:shadow-lg"
+								? "bg-muted text-muted-foreground cursor-not-allowed"
+								: "bg-primary text-background hover:opacity-90 active:scale-95 shadow-md hover:shadow-lg"
 						}
           `}
 					aria-label="Next content (Right arrow key or Space)"

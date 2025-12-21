@@ -5,6 +5,7 @@ import { ContentRenderer } from "@/components/ContentRenderer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LoadingFallback } from "@/components/LoadingFallback";
 import { NavigationControls } from "@/components/NavigationControls";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { fetchStudyContent } from "@/services/contentService";
 import type { StudyContent } from "@/types";
 
@@ -38,7 +39,10 @@ export default function ContentsScreen() {
 	};
 
 	return (
-		<div className="h-screen max-h-screen w-full max-w-2xl m-auto overflow-hidden">
+		<div className="h-screen max-h-screen w-full max-w-2xl m-auto overflow-hidden relative">
+			{/* Theme Toggle */}
+			<ThemeToggle />
+
 			<ErrorBoundary
 				onRetry={handleRetry}
 				fallback={

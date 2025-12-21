@@ -82,12 +82,12 @@ export const FlashcardRenderer: React.FC<FlashcardRendererProps> = ({
 										Question
 									</span>
 								</div>
-								<p className="text-background text-lg sm:text-xl md:text-2xl font-medium leading-relaxed">
+								<p className="text-card-background text-lg sm:text-xl md:text-2xl font-medium leading-relaxed">
 									{flashcardContent.question}
 								</p>
 								{flashcardContent.hint && (
 									<div className="mt-6 p-3 bg-flashcard-secondary rounded-lg">
-										<p className="text-background text-sm opacity-90">
+										<p className="text-card-background text-sm opacity-90">
 											<span className="font-medium">Hint:</span>{" "}
 											{flashcardContent.hint}
 										</p>
@@ -95,7 +95,7 @@ export const FlashcardRenderer: React.FC<FlashcardRendererProps> = ({
 								)}
 							</div>
 							<div className="absolute bottom-4 right-4">
-								<div className="text-background text-sm opacity-75">
+								<div className="text-card-background text-sm opacity-75">
 									Tap to reveal answer
 								</div>
 							</div>

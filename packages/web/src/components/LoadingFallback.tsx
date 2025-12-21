@@ -23,12 +23,18 @@ export const LoadingFallback: React.FC<LoadingFallbackProps> = ({
 	size = "lg",
 }) => {
 	return (
-		<div className="h-full flex items-center justify-center bg-background">
+		<output
+			className="h-full flex items-center justify-center bg-background"
+			aria-live="polite"
+			aria-label="Loading content"
+		>
 			<div className="text-center">
 				<Spinner size={size} />
-				<p className="text-muted-foreground text-lg mt-4">{message}</p>
+				<p className="text-muted-foreground text-lg mt-4" id="loading-message">
+					{message}
+				</p>
 			</div>
-		</div>
+		</output>
 	);
 };
 
