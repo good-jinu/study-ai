@@ -1,5 +1,5 @@
+import type { ContentFetchParams, ContentResponse } from "@study-ai/core";
 import { fetchStudyContentAction } from "../actions/contentActions";
-import type { ContentFetchParams, ContentResponse } from "../types";
 
 /**
  * Fetches study content using Server Actions with pagination support

@@ -64,16 +64,12 @@ pnpm check
 ## Project Structure
 
 ```
-zifiv/
+study-ai/
 ├── packages/
 │   ├── web/          # Next.js web application
-│   └── feeds/        # Feed processing package
-├── infra/            # SST infrastructure code
-│   ├── content-storage.ts
-│   ├── domain-ssl.ts
-│   ├── web-app.ts
-│   └── index.ts
-├── sst.config.ts     # SST configuration
+│   ├── core/         # Core business logic and types
+│   └── db/           # Database layer and repositories
+├── sst.config.ts     # SST infrastructure configuration
 └── mise.toml         # Development environment config
 ```
 
@@ -96,12 +92,11 @@ pnpm sst:dev
 ## Infrastructure
 
 The application uses the following AWS services:
-- **DynamoDB** - Content storage
-- **S3** - Asset storage
-- **CloudFront** - Content delivery network
-- **Route 53** - DNS management
-- **Certificate Manager** - SSL certificates
-- **Lambda** - Serverless functions
+- **DynamoDB** - Content storage (ContentsTable)
+- **CloudFront** - Content delivery network (via Next.js deployment)
+- **Route 53** - DNS management (when domain is configured)
+- **Certificate Manager** - SSL certificates (when domain is configured)
+- **Lambda** - Serverless functions (Next.js API routes)
 
 ## Removal
 
@@ -125,8 +120,9 @@ pnpm dev-remove
 - `mise run deploy` - Deploy to production
 - `mise run remove` - Remove production deployment
 - `mise run pre-commit` - Run code quality checks
-- `pnpm check` - Run linting and formatting checks
-- `pnpm build` - Build the application
+- `pnpm check` - Run linting and formatting checks (using Biome)
+- `pnpm check:fix` - Run linting and formatting with auto-fix
+- `pnpm build` - Build the web application
 
 ## Contributing
 

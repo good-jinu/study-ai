@@ -7,13 +7,13 @@
  * Requirements: 3.2
  */
 
-import type React from "react";
-import { useState } from "react";
 import {
 	type FlashcardContent,
 	isFlashcardContent,
 	type StudyContent,
-} from "@/types";
+} from "@study-ai/core";
+import type React from "react";
+import { useState } from "react";
 
 interface FlashcardRendererProps {
 	content: StudyContent;

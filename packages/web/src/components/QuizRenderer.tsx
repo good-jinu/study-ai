@@ -7,9 +7,13 @@
  * Requirements: 3.3
  */
 
+import {
+	isQuizContent,
+	type QuizContent,
+	type StudyContent,
+} from "@study-ai/core";
 import type React from "react";
 import { useState } from "react";
-import { isQuizContent, type QuizContent, type StudyContent } from "@/types";
 
 interface QuizRendererProps {
 	content: StudyContent;
@@ -80,7 +84,7 @@ export const QuizRenderer: React.FC<QuizRendererProps> = ({ content }) => {
 				<h4 className="text-lg font-semibold text-foreground mb-4">
 					Choose your answer:
 				</h4>
-				{quizContent.options.map((option, index) => {
+				{quizContent.options.map((option: string, index: number) => {
 					const isSelected = selectedAnswer === index;
 					const isCorrectAnswer = index === quizContent.correctAnswer;
 

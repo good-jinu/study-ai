@@ -7,14 +7,14 @@
  * Requirements: 3.4
  */
 
-import type React from "react";
 import {
 	isLessonContent,
 	isSummaryContent,
 	type LessonContent,
 	type StudyContent,
 	type SummaryContent,
-} from "@/types";
+} from "@study-ai/core";
+import type React from "react";
 
 interface LessonRendererProps {
 	content: StudyContent;
@@ -61,21 +61,26 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ content }) => {
 					{/* Lesson Content Sections */}
 					{isLesson && lessonContent.sections && (
 						<div className="space-y-8">
-							{lessonContent.sections.map((section, sectionIndex) => (
-								<section
-									key={`section-${section.heading}-${sectionIndex}`}
-									className="space-y-4"
-								>
-									<h2 className="text-xl sm:text-2xl font-semibold text-foreground border-l-4 border-lesson-primary pl-4">
-										{section.heading}
-									</h2>
-									<div className="prose prose-gray max-w-none">
-										<div className="text-muted-foreground text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
-											{section.body}
+							{lessonContent.sections.map(
+								(
+									section: { heading: string; body: string },
+									sectionIndex: number,
+								) => (
+									<section
+										key={`section-${section.heading}-${sectionIndex}`}
+										className="space-y-4"
+									>
+										<h2 className="text-xl sm:text-2xl font-semibold text-foreground border-l-4 border-lesson-primary pl-4">
+											{section.heading}
+										</h2>
+										<div className="prose prose-gray max-w-none">
+											<div className="text-muted-foreground text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
+												{section.body}
+											</div>
 										</div>
-									</div>
-								</section>
-							))}
+									</section>
+								),
+							)}
 						</div>
 					)}
 
@@ -96,17 +101,19 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ content }) => {
 											Key Points
 										</h3>
 										<ul className="space-y-2">
-											{summaryContent.bulletPoints.map((point, pointIndex) => (
-												<li
-													key={`bullet-${point.slice(0, 20)}-${pointIndex}`}
-													className="flex items-start"
-												>
-													<span className="flex-shrink-0 w-2 h-2 bg-lesson-primary rounded-full mt-2 mr-3"></span>
-													<span className="text-accent-foreground text-base leading-relaxed">
-														{point}
-													</span>
-												</li>
-											))}
+											{summaryContent.bulletPoints.map(
+												(point: string, pointIndex: number) => (
+													<li
+														key={`bullet-${point.slice(0, 20)}-${pointIndex}`}
+														className="flex items-start"
+													>
+														<span className="flex-shrink-0 w-2 h-2 bg-lesson-primary rounded-full mt-2 mr-3"></span>
+														<span className="text-accent-foreground text-base leading-relaxed">
+															{point}
+														</span>
+													</li>
+												),
+											)}
 										</ul>
 									</div>
 								)}
@@ -119,7 +126,7 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ content }) => {
 											Related Topics
 										</h3>
 										<div className="flex flex-wrap gap-2">
-											{summaryContent.relatedTopics.map((topic) => (
+											{summaryContent.relatedTopics.map((topic: string) => (
 												<span
 													key={`topic-${topic}`}
 													className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-card-background text-muted-foreground border border-card-border"
@@ -143,19 +150,21 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ content }) => {
 									Key Takeaways
 								</h3>
 								<ul className="space-y-3">
-									{lessonContent.keyPoints.map((point, pointIndex) => (
-										<li
-											key={`keypoint-${point.slice(0, 20)}-${pointIndex}`}
-											className="flex items-start"
-										>
-											<span className="flex-shrink-0 w-6 h-6 bg-success text-success-foreground rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-0.5">
-												{pointIndex + 1}
-											</span>
-											<span className="text-success-foreground text-base leading-relaxed">
-												{point}
-											</span>
-										</li>
-									))}
+									{lessonContent.keyPoints.map(
+										(point: string, pointIndex: number) => (
+											<li
+												key={`keypoint-${point.slice(0, 20)}-${pointIndex}`}
+												className="flex items-start"
+											>
+												<span className="flex-shrink-0 w-6 h-6 bg-success text-success-foreground rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-0.5">
+													{pointIndex + 1}
+												</span>
+												<span className="text-success-foreground text-base leading-relaxed">
+													{point}
+												</span>
+											</li>
+										),
+									)}
 								</ul>
 							</div>
 						)}

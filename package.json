@@ -9,9 +9,10 @@
 		"check:fix:unsafe": "biome check --write --unsafe",
 		"check": "biome check",
 		"prod-deploy": "sst deploy --stage production",
-		"sst:dev": "sst dev --stage developement",
+		"prod-dev": "sst dev --stage production",
+		"sst:dev": "sst dev --stage development",
 		"prod-remove": "sst remove --stage production",
-		"dev-remove": "sst remove --stage developement"
+		"dev-remove": "sst remove --stage development"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2",

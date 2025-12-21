@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
+import type { ContentResponse } from "@/types";
 import { fetchStudyContent, getErrorMessage } from "../services/contentService";
-import type { ContentResponse } from "../types";
 
 export interface UseContentFetchingResult {
 	isLoading: boolean;

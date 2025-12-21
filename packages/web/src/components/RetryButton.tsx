@@ -1,4 +1,4 @@
-import { Spinner } from "./ui/spinner";
+import Spinner from "./ui/Spinner";
 
 interface RetryButtonProps {
 	onRetry: () => void;
