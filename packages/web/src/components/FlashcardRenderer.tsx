@@ -14,6 +14,7 @@ import {
 } from "@study-ai/core";
 import type React from "react";
 import { useState } from "react";
+import { Alert, ContentCard } from "@/components/ui";
 
 interface FlashcardRendererProps {
 	content: StudyContent;
@@ -31,9 +32,7 @@ export const FlashcardRenderer: React.FC<FlashcardRendererProps> = ({
 	if (!isFlashcardContent(content.content)) {
 		return (
 			<div className="flex items-center justify-center h-full p-6">
-				<div className="text-center text-error">
-					<p>Invalid flashcard content</p>
-				</div>
+				<Alert variant="error">Invalid flashcard content</Alert>
 			</div>
 		);
 	}
@@ -60,13 +59,14 @@ export const FlashcardRenderer: React.FC<FlashcardRendererProps> = ({
 
 			{/* Flashcard Container */}
 			<div className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl">
-				<button
-					type="button"
-					className={`relative w-full min-h-[300px] sm:min-h-[350px] md:min-h-[400px] cursor-pointer transform transition-transform duration-300 hover:scale-105 focus:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-opacity-50 rounded-xl ${
+				<ContentCard
+					variant={isFlipped ? "answer" : "question"}
+					className={`relative w-full min-h-[300px] sm:min-h-[350px] md:min-h-[400px] transform transition-transform duration-300 ${
 						isFlipped ? "rotate-y-180" : ""
 					}`}
 					onClick={handleCardClick}
 					onKeyDown={handleKeyDown}
+					tabIndex={0}
 					aria-label={isFlipped ? "Show question" : "Show answer"}
 				>
 					{/* Question Side */}
@@ -75,7 +75,7 @@ export const FlashcardRenderer: React.FC<FlashcardRendererProps> = ({
 							isFlipped ? "opacity-0 pointer-events-none" : "opacity-100"
 						}`}
 					>
-						<div className="w-full h-full bg-gradient-to-br from-flashcard-primary to-flashcard-secondary rounded-xl shadow-lg flex flex-col items-center justify-center p-6 sm:p-8">
+						<div className="w-full h-full flex flex-col items-center justify-center p-6 sm:p-8">
 							<div className="text-center">
 								<div className="mb-4">
 									<span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-card-background text-flashcard-primary">
@@ -108,7 +108,7 @@ export const FlashcardRenderer: React.FC<FlashcardRendererProps> = ({
 							isFlipped ? "opacity-100" : "opacity-0 pointer-events-none"
 						}`}
 					>
-						<div className="w-full h-full bg-gradient-to-br from-success to-success rounded-xl shadow-lg flex flex-col items-center justify-center p-6 sm:p-8">
+						<div className="w-full h-full flex flex-col items-center justify-center p-6 sm:p-8">
 							<div className="text-center">
 								<div className="mb-4">
 									<span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-success-muted text-success-foreground">
@@ -126,7 +126,7 @@ export const FlashcardRenderer: React.FC<FlashcardRendererProps> = ({
 							</div>
 						</div>
 					</div>
-				</button>
+				</ContentCard>
 
 				{/* Instructions */}
 				<div className="mt-4 text-center">

@@ -15,6 +15,13 @@ import {
 	type SummaryContent,
 } from "@study-ai/core";
 import type React from "react";
+import {
+	Alert,
+	Badge,
+	ContentHeader,
+	ContentSection,
+	KeyPointsList,
+} from "@/components/ui";
 
 interface LessonRendererProps {
 	content: StudyContent;
@@ -31,9 +38,7 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ content }) => {
 	if (!isLesson && !isSummary) {
 		return (
 			<div className="flex items-center justify-center h-full p-6">
-				<div className="text-center text-error">
-					<p>Invalid lesson or summary content</p>
-				</div>
+				<Alert variant="error">Invalid lesson or summary content</Alert>
 			</div>
 		);
 	}
@@ -44,16 +49,11 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ content }) => {
 	return (
 		<div className="flex flex-col h-full bg-background">
 			{/* Header */}
-			<div className="flex-shrink-0 p-4 sm:p-6 border-b border-border">
-				<h1 className="text-2xl sm:text-3xl font-bold text-foreground leading-tight">
-					{content.title}
-				</h1>
-				<div className="mt-2">
-					<span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-lesson-primary text-background">
-						{isSummary ? "Summary" : "Lesson"}
-					</span>
-				</div>
-			</div>
+			<ContentHeader
+				title={content.title}
+				type={content.type}
+				subtitle={isSummary ? "Summary" : "Lesson"}
+			/>
 
 			{/* Scrollable Content Area */}
 			<div className="flex-1 overflow-y-auto">
@@ -66,19 +66,14 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ content }) => {
 									section: { heading: string; body: string },
 									sectionIndex: number,
 								) => (
-									<section
+									<ContentSection
 										key={`section-${section.heading}-${sectionIndex}`}
-										className="space-y-4"
+										heading={section.heading}
 									>
-										<h2 className="text-xl sm:text-2xl font-semibold text-foreground border-l-4 border-lesson-primary pl-4">
-											{section.heading}
-										</h2>
-										<div className="prose prose-gray max-w-none">
-											<div className="text-muted-foreground text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
-												{section.body}
-											</div>
+										<div className="text-muted-foreground text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
+											{section.body}
 										</div>
-									</section>
+									</ContentSection>
 								),
 							)}
 						</div>
@@ -96,26 +91,11 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ content }) => {
 							{/* Summary Bullet Points */}
 							{summaryContent.bulletPoints &&
 								summaryContent.bulletPoints.length > 0 && (
-									<div className="bg-accent rounded-lg p-4 sm:p-6 border border-card-border">
-										<h3 className="text-lg font-semibold text-accent-foreground mb-4">
-											Key Points
-										</h3>
-										<ul className="space-y-2">
-											{summaryContent.bulletPoints.map(
-												(point: string, pointIndex: number) => (
-													<li
-														key={`bullet-${point.slice(0, 20)}-${pointIndex}`}
-														className="flex items-start"
-													>
-														<span className="flex-shrink-0 w-2 h-2 bg-lesson-primary rounded-full mt-2 mr-3"></span>
-														<span className="text-accent-foreground text-base leading-relaxed">
-															{point}
-														</span>
-													</li>
-												),
-											)}
-										</ul>
-									</div>
+									<KeyPointsList
+										points={summaryContent.bulletPoints}
+										title="Key Points"
+										variant="bullets"
+									/>
 								)}
 
 							{/* Related Topics */}
@@ -127,12 +107,13 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ content }) => {
 										</h3>
 										<div className="flex flex-wrap gap-2">
 											{summaryContent.relatedTopics.map((topic: string) => (
-												<span
+												<Badge
 													key={`topic-${topic}`}
-													className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-card-background text-muted-foreground border border-card-border"
+													variant="default"
+													className="border border-card-border"
 												>
 													{topic}
-												</span>
+												</Badge>
 											))}
 										</div>
 									</div>
@@ -144,34 +125,17 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ content }) => {
 					{isLesson &&
 						lessonContent.keyPoints &&
 						lessonContent.keyPoints.length > 0 && (
-							<div className="bg-success-muted rounded-lg p-4 sm:p-6 mt-8 border border-success">
-								<h3 className="text-lg font-semibold text-success-foreground mb-4 flex items-center">
-									<span className="mr-2">💡</span>
-									Key Takeaways
-								</h3>
-								<ul className="space-y-3">
-									{lessonContent.keyPoints.map(
-										(point: string, pointIndex: number) => (
-											<li
-												key={`keypoint-${point.slice(0, 20)}-${pointIndex}`}
-												className="flex items-start"
-											>
-												<span className="flex-shrink-0 w-6 h-6 bg-success text-success-foreground rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-0.5">
-													{pointIndex + 1}
-												</span>
-												<span className="text-success-foreground text-base leading-relaxed">
-													{point}
-												</span>
-											</li>
-										),
-									)}
-								</ul>
-							</div>
+							<KeyPointsList
+								points={lessonContent.keyPoints}
+								title="Key Takeaways"
+								variant="numbered"
+								className="mt-8"
+							/>
 						)}
 				</div>
 
 				{/* Bottom Padding for Mobile */}
-				<div className="h-4 sm:h-6"></div>
+				<div className="h-4 sm:h-6" />
 			</div>
 
 			{/* Scroll Indicator */}

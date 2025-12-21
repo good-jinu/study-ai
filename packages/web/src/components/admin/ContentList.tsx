@@ -8,6 +8,7 @@ import {
 	deleteContentAction,
 	fetchAllContentAction,
 } from "@/actions/adminActions";
+import { Alert, Badge, Button, Card, Select } from "@/components/ui";
 
 const CONTENT_TYPES: { value: string; label: string }[] = [
 	{ value: "all", label: "All Types" },
@@ -78,25 +79,27 @@ export default function ContentList() {
 		}
 	};
 
-	const getTypeColor = (type: ContentType) => {
+	const getTypeColor = (
+		type: ContentType,
+	): "flashcard" | "quiz" | "lesson" | "summary" => {
 		switch (type) {
 			case "flashcard":
-				return "bg-flashcard-primary text-background";
+				return "flashcard";
 			case "quiz":
-				return "bg-quiz-primary text-background";
+				return "quiz";
 			case "lesson":
-				return "bg-lesson-primary text-background";
+				return "lesson";
 			case "summary":
-				return "bg-warning text-warning-foreground";
+				return "summary";
 			default:
-				return "bg-muted text-muted-foreground";
+				return "flashcard";
 		}
 	};
 
 	if (loading && contents.length === 0) {
 		return (
 			<div className="flex justify-center items-center py-12">
-				<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+				<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
 			</div>
 		);
 	}
@@ -106,7 +109,7 @@ export default function ContentList() {
 			{/* Filter */}
 			<div className="flex items-center space-x-4">
 				<Filter className="h-5 w-5 text-muted-foreground" />
-				<select
+				<Select
 					value={selectedType}
 					onChange={(e) => setSelectedType(e.target.value)}
 					className="border border-border rounded-md px-3 py-2 bg-card-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
@@ -116,36 +119,28 @@ export default function ContentList() {
 							{type.label}
 						</option>
 					))}
-				</select>
+				</Select>
 			</div>
 
-			{error && (
-				<div className="bg-error-muted border border-error rounded-md p-4">
-					<p className="text-error">{error}</p>
-				</div>
-			)}
+			{error && <Alert variant="error">{error}</Alert>}
 
 			{/* Content Grid */}
 			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 				{contents.map((content) => (
-					<div
+					<Card
 						key={content.id}
-						className="bg-card-background rounded-lg shadow-sm border border-card-border p-6 hover:shadow-md transition-shadow"
+						className="p-6 hover:shadow-md transition-shadow"
 					>
 						<div className="flex items-start justify-between mb-4">
 							<div className="flex-1">
 								<div className="flex items-center space-x-2 mb-2">
-									<span
-										className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getTypeColor(
-											content.type,
-										)}`}
-									>
+									<Badge variant={getTypeColor(content.type)}>
 										{content.type}
-									</span>
+									</Badge>
 									{content.metadata?.difficulty && (
-										<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted text-muted-foreground">
+										<Badge variant="difficulty">
 											{content.metadata.difficulty}
-										</span>
+										</Badge>
 									)}
 								</div>
 								<h3 className="text-lg font-medium text-foreground mb-2">
@@ -159,12 +154,9 @@ export default function ContentList() {
 								{content.metadata?.tags && content.metadata.tags.length > 0 && (
 									<div className="flex flex-wrap gap-1">
 										{content.metadata.tags.map((tag) => (
-											<span
-												key={tag}
-												className="inline-flex items-center px-2 py-1 rounded text-xs bg-muted text-muted-foreground"
-											>
+											<Badge key={tag} variant="default" className="text-xs">
 												{tag}
-											</span>
+											</Badge>
 										))}
 									</div>
 								)}
@@ -173,38 +165,36 @@ export default function ContentList() {
 
 						<div className="flex items-center justify-between pt-4 border-t border-card-border">
 							<div className="flex space-x-2">
-								<Link
-									href={`/admin/content/${content.id}`}
-									className="inline-flex items-center px-3 py-1.5 border border-border text-sm font-medium rounded-md text-foreground bg-card-background hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring"
-								>
-									<Edit className="h-4 w-4 mr-1" />
-									Edit
-								</Link>
-								<button
-									type="button"
+								<Button variant="secondary" size="sm" asChild>
+									<Link href={`/admin/content/${content.id}`}>
+										<Edit className="h-4 w-4 mr-1" />
+										Edit
+									</Link>
+								</Button>
+								<Button
+									variant="danger"
+									size="sm"
 									onClick={() => handleDelete(content.id, content.title)}
-									className="inline-flex items-center px-3 py-1.5 border border-error text-sm font-medium rounded-md text-error bg-card-background hover:bg-error-muted focus:outline-none focus:ring-2 focus:ring-error"
 								>
 									<Trash2 className="h-4 w-4 mr-1" />
 									Delete
-								</button>
+								</Button>
 							</div>
 						</div>
-					</div>
+					</Card>
 				))}
 			</div>
 
 			{/* Load More */}
 			{hasMore && (
 				<div className="flex justify-center">
-					<button
-						type="button"
+					<Button
+						variant="secondary"
 						onClick={() => loadContent(false)}
 						disabled={loading}
-						className="px-6 py-2 border border-border text-sm font-medium rounded-md text-foreground bg-card-background hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50"
 					>
 						{loading ? "Loading..." : "Load More"}
-					</button>
+					</Button>
 				</div>
 			)}
 
@@ -218,12 +208,9 @@ export default function ContentList() {
 						Get started by creating your first piece of content.
 					</p>
 					<div className="mt-6">
-						<Link
-							href="/admin/content/new"
-							className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-background bg-primary hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring"
-						>
-							Create Content
-						</Link>
+						<Button asChild>
+							<Link href="/admin/content/new">Create Content</Link>
+						</Button>
 					</div>
 				</div>
 			)}

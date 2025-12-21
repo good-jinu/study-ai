@@ -14,6 +14,14 @@ import {
 } from "@study-ai/core";
 import type React from "react";
 import { useState } from "react";
+import {
+	Alert,
+	AnswerOption,
+	Button,
+	Card,
+	CardContent,
+	FeedbackCard,
+} from "@/components/ui";
 
 interface QuizRendererProps {
 	content: StudyContent;
@@ -30,9 +38,7 @@ export const QuizRenderer: React.FC<QuizRendererProps> = ({ content }) => {
 	if (!isQuizContent(content.content)) {
 		return (
 			<div className="flex items-center justify-center h-full p-6">
-				<div className="text-center text-error">
-					<p>Invalid quiz content</p>
-				</div>
+				<Alert variant="error">Invalid quiz content</Alert>
 			</div>
 		);
 	}
@@ -44,13 +50,6 @@ export const QuizRenderer: React.FC<QuizRendererProps> = ({ content }) => {
 
 		setSelectedAnswer(answerIndex);
 		setIsAnswered(true);
-	};
-
-	const handleKeyDown = (event: React.KeyboardEvent, answerIndex: number) => {
-		if (event.key === "Enter" || event.key === " ") {
-			event.preventDefault();
-			handleAnswerSelect(answerIndex);
-		}
 	};
 
 	const resetQuiz = () => {
@@ -69,14 +68,16 @@ export const QuizRenderer: React.FC<QuizRendererProps> = ({ content }) => {
 
 			{/* Question */}
 			<div className="mb-8">
-				<div className="bg-muted rounded-lg p-4 sm:p-6 border border-card-border">
-					<h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
-						Question
-					</h3>
-					<p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-						{quizContent.question}
-					</p>
-				</div>
+				<Card>
+					<CardContent className="p-4 sm:p-6">
+						<h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
+							Question
+						</h3>
+						<p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+							{quizContent.question}
+						</p>
+					</CardContent>
+				</Card>
 			</div>
 
 			{/* Answer Options */}
@@ -84,131 +85,44 @@ export const QuizRenderer: React.FC<QuizRendererProps> = ({ content }) => {
 				<h4 className="text-lg font-semibold text-foreground mb-4">
 					Choose your answer:
 				</h4>
-				{quizContent.options.map((option: string, index: number) => {
-					const isSelected = selectedAnswer === index;
-					const isCorrectAnswer = index === quizContent.correctAnswer;
-
-					let buttonClasses =
-						"w-full p-4 text-left rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-opacity-50 ";
-
-					if (!isAnswered) {
-						// Before answering
-						buttonClasses +=
-							"border-border bg-card-background hover:border-quiz-primary hover:bg-accent cursor-pointer";
-					} else {
-						// After answering
-						if (isCorrectAnswer) {
-							buttonClasses += "border-success bg-success-muted";
-						} else if (isSelected && !isCorrectAnswer) {
-							buttonClasses += "border-error bg-error-muted";
-						} else {
-							buttonClasses += "border-border bg-muted opacity-60";
-						}
-					}
-
-					return (
-						<button
-							type="button"
-							key={`option-${option.slice(0, 20)}-${index}`}
-							onClick={() => handleAnswerSelect(index)}
-							onKeyDown={(e) => handleKeyDown(e, index)}
-							disabled={isAnswered}
-							className={buttonClasses}
-							aria-label={`Option ${index + 1}: ${option}`}
-						>
-							<div className="flex items-center">
-								<span className="flex-shrink-0 w-8 h-8 rounded-full border-2 border-current flex items-center justify-center mr-3 font-semibold">
-									{String.fromCharCode(65 + index)}
-								</span>
-								<span className="text-foreground text-base sm:text-lg">
-									{option}
-								</span>
-								{isAnswered && isCorrectAnswer && (
-									<span className="ml-auto text-success">✓ Correct</span>
-								)}
-								{isAnswered && isSelected && !isCorrectAnswer && (
-									<span className="ml-auto text-error">✗ Incorrect</span>
-								)}
-							</div>
-						</button>
-					);
-				})}
+				{quizContent.options.map((option: string, index: number) => (
+					<AnswerOption
+						key={`option-${option.slice(0, 20)}-${index}`}
+						option={option}
+						index={index}
+						isSelected={selectedAnswer === index}
+						isCorrect={index === quizContent.correctAnswer}
+						isAnswered={isAnswered}
+						onSelect={handleAnswerSelect}
+					/>
+				))}
 			</div>
 
 			{/* Feedback Section */}
 			{isAnswered && (
 				<div className="mb-6">
-					<div
-						className={`rounded-lg p-4 sm:p-6 border ${
-							isCorrect
-								? "bg-success-muted border-success"
-								: "bg-error-muted border-error"
-						}`}
-					>
-						<div className="flex items-center mb-3">
-							<span
-								className={`text-2xl mr-2 ${
-									isCorrect ? "text-success" : "text-error"
-								}`}
-							>
-								{isCorrect ? "🎉" : "❌"}
-							</span>
-							<h4
-								className={`text-lg font-semibold ${
-									isCorrect
-										? "text-success-foreground"
-										: "text-error-foreground"
-								}`}
-							>
-								{isCorrect ? "Correct!" : "Incorrect"}
-							</h4>
-						</div>
-
-						{!isCorrect && (
-							<p className="text-error-foreground mb-3">
-								The correct answer is:{" "}
-								<strong>
-									{quizContent.options[quizContent.correctAnswer]}
-								</strong>
-							</p>
-						)}
-
-						{quizContent.explanation && (
-							<div>
-								<h5
-									className={`font-medium mb-2 ${
-										isCorrect
-											? "text-success-foreground"
-											: "text-error-foreground"
-									}`}
-								>
-									Explanation:
-								</h5>
-								<p
-									className={`text-base leading-relaxed ${
-										isCorrect
-											? "text-success-foreground"
-											: "text-error-foreground"
-									}`}
-								>
-									{quizContent.explanation}
-								</p>
-							</div>
-						)}
-					</div>
+					<FeedbackCard
+						type={isCorrect ? "success" : "error"}
+						title={isCorrect ? "Correct!" : "Incorrect"}
+						message={
+							!isCorrect
+								? `The correct answer is: ${quizContent.options[quizContent.correctAnswer]}`
+								: undefined
+						}
+						explanation={quizContent.explanation}
+					/>
 				</div>
 			)}
 
 			{/* Reset Button */}
 			{isAnswered && (
 				<div className="mt-auto pt-4">
-					<button
-						type="button"
+					<Button
 						onClick={resetQuiz}
-						className="w-full py-3 px-4 bg-quiz-primary hover:bg-quiz-secondary text-background font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-opacity-50"
+						className="w-full bg-quiz-primary hover:bg-quiz-secondary text-background"
 					>
 						Try Again
-					</button>
+					</Button>
 				</div>
 			)}
 

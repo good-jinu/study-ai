@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SkipLink } from "@/components/SkipLink";
-import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
 	title: "StudyAI",
@@ -32,11 +31,9 @@ export default function RootLayout({
 			<head></head>
 			<body className="antialiased bg-background text-foreground h-full">
 				<SkipLink />
-				<ThemeProvider defaultTheme="system">
-					<main id="main-content" className="min-h-screen">
-						{children}
-					</main>
-				</ThemeProvider>
+				<main id="main-content" className="min-h-screen">
+					{children}
+				</main>
 			</body>
 		</html>
 	);

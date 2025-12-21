@@ -1,13 +1,10 @@
 "use client";
 
 import { FastContent, type FetchCallback } from "@fastcontents/react";
-import { Settings } from "lucide-react";
-import Link from "next/link";
 import { ContentRenderer } from "@/components/ContentRenderer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LoadingFallback } from "@/components/LoadingFallback";
 import { NavigationControls } from "@/components/NavigationControls";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { fetchStudyContent } from "@/services/contentService";
 import type { StudyContent } from "@/types";
 
@@ -43,16 +40,7 @@ export default function ContentsScreen() {
 	return (
 		<div className="h-screen max-h-screen w-full max-w-2xl m-auto overflow-hidden relative">
 			{/* Top Controls */}
-			<div className="absolute top-4 right-4 z-10 flex items-center space-x-2">
-				<Link
-					href="/admin"
-					className="p-2 bg-background/80 backdrop-blur-sm border border-border rounded-lg hover:bg-background/90 transition-colors"
-					title="Admin Panel"
-				>
-					<Settings className="h-5 w-5 text-foreground" />
-				</Link>
-				<ThemeToggle />
-			</div>
+			<div className="absolute top-4 right-4 z-10 flex items-center space-x-2"></div>
 
 			<ErrorBoundary
 				onRetry={handleRetry}

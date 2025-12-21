@@ -15,6 +15,18 @@ import {
 	createContentAction,
 	updateContentAction,
 } from "@/actions/adminActions";
+import {
+	Alert,
+	Button,
+	Card,
+	CardContent,
+	FormField,
+	FormSection,
+	Input,
+	Label,
+	Select,
+	Textarea,
+} from "@/components/ui";
 
 interface ContentFormProps {
 	initialData?: StudyContent;
@@ -165,14 +177,11 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 			case "flashcard":
 				return (
 					<div className="space-y-4">
-						<div>
-							<label
-								htmlFor="flashcard-question"
-								className="block text-sm font-medium text-foreground mb-2"
-							>
-								Question *
-							</label>
-							<textarea
+						<FormField>
+							<Label htmlFor="flashcard-question" required>
+								Question
+							</Label>
+							<Textarea
 								id="flashcard-question"
 								value={flashcardContent.question}
 								onChange={(e) =>
@@ -181,19 +190,15 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 										question: e.target.value,
 									}))
 								}
-								className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
 								rows={3}
 								required
 							/>
-						</div>
-						<div>
-							<label
-								htmlFor="flashcard-answer"
-								className="block text-sm font-medium text-foreground mb-2"
-							>
-								Answer *
-							</label>
-							<textarea
+						</FormField>
+						<FormField>
+							<Label htmlFor="flashcard-answer" required>
+								Answer
+							</Label>
+							<Textarea
 								id="flashcard-answer"
 								value={flashcardContent.answer}
 								onChange={(e) =>
@@ -202,19 +207,13 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 										answer: e.target.value,
 									}))
 								}
-								className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
 								rows={3}
 								required
 							/>
-						</div>
-						<div>
-							<label
-								htmlFor="flashcard-hint"
-								className="block text-sm font-medium text-foreground mb-2"
-							>
-								Hint (optional)
-							</label>
-							<input
+						</FormField>
+						<FormField>
+							<Label htmlFor="flashcard-hint">Hint (optional)</Label>
+							<Input
 								id="flashcard-hint"
 								type="text"
 								value={flashcardContent.hint || ""}
@@ -224,23 +223,19 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 										hint: e.target.value,
 									}))
 								}
-								className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
 							/>
-						</div>
+						</FormField>
 					</div>
 				);
 
 			case "quiz":
 				return (
 					<div className="space-y-4">
-						<div>
-							<label
-								htmlFor="quiz-question"
-								className="block text-sm font-medium text-foreground mb-2"
-							>
-								Question *
-							</label>
-							<textarea
+						<FormField>
+							<Label htmlFor="quiz-question" required>
+								Question
+							</Label>
+							<Textarea
 								id="quiz-question"
 								value={quizContent.question}
 								onChange={(e) =>
@@ -249,12 +244,11 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 										question: e.target.value,
 									}))
 								}
-								className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
 								rows={3}
 								required
 							/>
-						</div>
-						<div>
+						</FormField>
+						<FormField>
 							<fieldset>
 								<legend className="block text-sm font-medium text-foreground mb-2">
 									Options *
@@ -276,7 +270,7 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 											}
 											className="text-primary focus:ring-ring"
 										/>
-										<input
+										<Input
 											type="text"
 											value={option}
 											onChange={(e) => {
@@ -288,21 +282,16 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 												}));
 											}}
 											placeholder={`Option ${index + 1}`}
-											className="flex-1 px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+											className="flex-1"
 											required
 										/>
 									</div>
 								))}
 							</fieldset>
-						</div>
-						<div>
-							<label
-								htmlFor="quiz-explanation"
-								className="block text-sm font-medium text-foreground mb-2"
-							>
-								Explanation (optional)
-							</label>
-							<textarea
+						</FormField>
+						<FormField>
+							<Label htmlFor="quiz-explanation">Explanation (optional)</Label>
+							<Textarea
 								id="quiz-explanation"
 								value={quizContent.explanation || ""}
 								onChange={(e) =>
@@ -311,125 +300,125 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 										explanation: e.target.value,
 									}))
 								}
-								className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
 								rows={3}
 							/>
-						</div>
+						</FormField>
 					</div>
 				);
 
 			case "lesson":
 				return (
 					<div className="space-y-4">
-						<fieldset>
-							<legend className="block text-sm font-medium text-foreground mb-2">
-								Sections *
-							</legend>
-							{lessonContent.sections.map((section, index) => (
-								<div
-									key={`section-${index}-${section.heading.slice(0, 10)}`}
-									className="border border-card-border rounded-md p-4 mb-4 bg-card-background"
+						<FormField>
+							<fieldset>
+								<legend className="block text-sm font-medium text-foreground mb-2">
+									Sections *
+								</legend>
+								{lessonContent.sections.map((section, index) => (
+									<Card
+										key={`section-${index}-${section.heading.slice(0, 10)}`}
+										className="mb-4"
+									>
+										<CardContent className="p-4">
+											<div className="flex justify-between items-center mb-2">
+												<h4 className="text-sm font-medium text-foreground">
+													Section {index + 1}
+												</h4>
+												{lessonContent.sections.length > 1 && (
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														onClick={() => {
+															const newSections = lessonContent.sections.filter(
+																(_, i) => i !== index,
+															);
+															setLessonContent((prev) => ({
+																...prev,
+																sections: newSections,
+															}));
+														}}
+														className="text-error hover:text-error/80"
+													>
+														Remove
+													</Button>
+												)}
+											</div>
+											<div className="space-y-2">
+												<Input
+													type="text"
+													value={section.heading}
+													onChange={(e) => {
+														const newSections = [...lessonContent.sections];
+														newSections[index].heading = e.target.value;
+														setLessonContent((prev) => ({
+															...prev,
+															sections: newSections,
+														}));
+													}}
+													placeholder="Section heading"
+													required
+												/>
+												<Textarea
+													value={section.body}
+													onChange={(e) => {
+														const newSections = [...lessonContent.sections];
+														newSections[index].body = e.target.value;
+														setLessonContent((prev) => ({
+															...prev,
+															sections: newSections,
+														}));
+													}}
+													placeholder="Section content"
+													rows={4}
+													required
+												/>
+											</div>
+										</CardContent>
+									</Card>
+								))}
+								<Button
+									type="button"
+									variant="ghost"
+									size="sm"
+									onClick={() => {
+										setLessonContent((prev) => ({
+											...prev,
+											sections: [...prev.sections, { heading: "", body: "" }],
+										}));
+									}}
+									className="text-primary hover:text-primary/80"
 								>
-									<div className="flex justify-between items-center mb-2">
-										<h4 className="text-sm font-medium text-foreground">
-											Section {index + 1}
-										</h4>
-										{lessonContent.sections.length > 1 && (
-											<button
-												type="button"
-												onClick={() => {
-													const newSections = lessonContent.sections.filter(
-														(_, i) => i !== index,
-													);
-													setLessonContent((prev) => ({
-														...prev,
-														sections: newSections,
-													}));
-												}}
-												className="text-error hover:text-error/80 text-sm"
-											>
-												Remove
-											</button>
-										)}
-									</div>
-									<input
-										type="text"
-										value={section.heading}
-										onChange={(e) => {
-											const newSections = [...lessonContent.sections];
-											newSections[index].heading = e.target.value;
-											setLessonContent((prev) => ({
-												...prev,
-												sections: newSections,
-											}));
-										}}
-										placeholder="Section heading"
-										className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring mb-2"
-										required
-									/>
-									<textarea
-										value={section.body}
-										onChange={(e) => {
-											const newSections = [...lessonContent.sections];
-											newSections[index].body = e.target.value;
-											setLessonContent((prev) => ({
-												...prev,
-												sections: newSections,
-											}));
-										}}
-										placeholder="Section content"
-										className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-										rows={4}
-										required
-									/>
-								</div>
-							))}
-							<button
-								type="button"
-								onClick={() => {
-									setLessonContent((prev) => ({
-										...prev,
-										sections: [...prev.sections, { heading: "", body: "" }],
-									}));
-								}}
-								className="text-primary hover:text-primary/80 text-sm"
-							>
-								+ Add Section
-							</button>
-						</fieldset>
-						<div>
-							<label
-								htmlFor="lesson-keypoints"
-								className="block text-sm font-medium text-foreground mb-2"
-							>
+									+ Add Section
+								</Button>
+							</fieldset>
+						</FormField>
+						<FormField>
+							<Label htmlFor="lesson-keypoints">
 								Key Points (optional, one per line)
-							</label>
-							<textarea
+							</Label>
+							<Textarea
 								id="lesson-keypoints"
 								value={lessonContent.keyPoints?.join("\n") || ""}
 								onChange={(e) => {
 									const keyPoints = e.target.value.split("\n").filter(Boolean);
 									setLessonContent((prev) => ({ ...prev, keyPoints }));
 								}}
-								className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
 								rows={4}
 								placeholder="Enter key points, one per line"
 							/>
-						</div>
+						</FormField>
 					</div>
 				);
 
 			case "summary":
 				return (
 					<div className="space-y-4">
-						<div>
-							<label
-								htmlFor="summary-content"
-								className="block text-sm font-medium text-foreground mb-2"
-							>
-								Summary *
-							</label>
-							<textarea
+						<FormField>
+							<Label htmlFor="summary-content" required>
+								Summary
+							</Label>
+							<Textarea
 								id="summary-content"
 								value={summaryContent.summary}
 								onChange={(e) =>
@@ -438,19 +427,15 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 										summary: e.target.value,
 									}))
 								}
-								className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
 								rows={6}
 								required
 							/>
-						</div>
-						<div>
-							<label
-								htmlFor="summary-bullets"
-								className="block text-sm font-medium text-foreground mb-2"
-							>
+						</FormField>
+						<FormField>
+							<Label htmlFor="summary-bullets">
 								Bullet Points (optional, one per line)
-							</label>
-							<textarea
+							</Label>
+							<Textarea
 								id="summary-bullets"
 								value={summaryContent.bulletPoints?.join("\n") || ""}
 								onChange={(e) => {
@@ -459,19 +444,15 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 										.filter(Boolean);
 									setSummaryContent((prev) => ({ ...prev, bulletPoints }));
 								}}
-								className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
 								rows={4}
 								placeholder="Enter bullet points, one per line"
 							/>
-						</div>
-						<div>
-							<label
-								htmlFor="summary-topics"
-								className="block text-sm font-medium text-foreground mb-2"
-							>
+						</FormField>
+						<FormField>
+							<Label htmlFor="summary-topics">
 								Related Topics (optional, one per line)
-							</label>
-							<textarea
+							</Label>
+							<Textarea
 								id="summary-topics"
 								value={summaryContent.relatedTopics?.join("\n") || ""}
 								onChange={(e) => {
@@ -480,11 +461,10 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 										.filter(Boolean);
 									setSummaryContent((prev) => ({ ...prev, relatedTopics }));
 								}}
-								className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
 								rows={3}
 								placeholder="Enter related topics, one per line"
 							/>
-						</div>
+						</FormField>
 					</div>
 				);
 		}
@@ -492,143 +472,108 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 
 	return (
 		<form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
-			<div className="bg-card-background shadow-sm rounded-lg p-6 space-y-6 border border-card-border">
-				{error && (
-					<div className="bg-error-muted border border-error rounded-md p-4">
-						<p className="text-error">{error}</p>
-					</div>
-				)}
+			<Card className="p-6 space-y-6">
+				{error && <Alert variant="error">{error}</Alert>}
 
 				{/* Basic Information */}
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-					<div>
-						<label
-							htmlFor="content-type"
-							className="block text-sm font-medium text-foreground mb-2"
-						>
-							Content Type *
-						</label>
-						<select
-							id="content-type"
-							value={type}
-							onChange={(e) => setType(e.target.value as ContentType)}
-							className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-							required
-						>
-							{CONTENT_TYPES.map((contentType) => (
-								<option key={contentType.value} value={contentType.value}>
-									{contentType.label}
-								</option>
-							))}
-						</select>
+				<FormSection title="Basic Information">
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<FormField>
+							<Label htmlFor="content-type" required>
+								Content Type
+							</Label>
+							<Select
+								id="content-type"
+								value={type}
+								onChange={(e) => setType(e.target.value as ContentType)}
+								required
+							>
+								{CONTENT_TYPES.map((contentType) => (
+									<option key={contentType.value} value={contentType.value}>
+										{contentType.label}
+									</option>
+								))}
+							</Select>
+						</FormField>
+
+						<FormField>
+							<Label htmlFor="content-title" required>
+								Title
+							</Label>
+							<Input
+								id="content-title"
+								type="text"
+								value={title}
+								onChange={(e) => setTitle(e.target.value)}
+								required
+							/>
+						</FormField>
+
+						<FormField>
+							<Label htmlFor="content-difficulty">Difficulty Level</Label>
+							<Select
+								id="content-difficulty"
+								value={difficulty}
+								onChange={(e) =>
+									setDifficulty(e.target.value as DifficultyLevel | "")
+								}
+							>
+								<option value="">Select difficulty</option>
+								{DIFFICULTY_LEVELS.map((level) => (
+									<option key={level.value} value={level.value}>
+										{level.label}
+									</option>
+								))}
+							</Select>
+						</FormField>
+
+						<FormField>
+							<Label htmlFor="content-subject">Subject</Label>
+							<Input
+								id="content-subject"
+								type="text"
+								value={subject}
+								onChange={(e) => setSubject(e.target.value)}
+								placeholder="e.g., Mathematics, History, Science"
+							/>
+						</FormField>
 					</div>
 
-					<div>
-						<label
-							htmlFor="content-title"
-							className="block text-sm font-medium text-foreground mb-2"
-						>
-							Title *
-						</label>
-						<input
-							id="content-title"
+					<FormField>
+						<Label htmlFor="content-tags">Tags (comma-separated)</Label>
+						<Input
+							id="content-tags"
 							type="text"
-							value={title}
-							onChange={(e) => setTitle(e.target.value)}
-							className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-							required
+							value={tags}
+							onChange={(e) => setTags(e.target.value)}
+							placeholder="e.g., algebra, equations, problem-solving"
 						/>
-					</div>
-
-					<div>
-						<label
-							htmlFor="content-difficulty"
-							className="block text-sm font-medium text-foreground mb-2"
-						>
-							Difficulty Level
-						</label>
-						<select
-							id="content-difficulty"
-							value={difficulty}
-							onChange={(e) =>
-								setDifficulty(e.target.value as DifficultyLevel | "")
-							}
-							className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-						>
-							<option value="">Select difficulty</option>
-							{DIFFICULTY_LEVELS.map((level) => (
-								<option key={level.value} value={level.value}>
-									{level.label}
-								</option>
-							))}
-						</select>
-					</div>
-
-					<div>
-						<label
-							htmlFor="content-subject"
-							className="block text-sm font-medium text-foreground mb-2"
-						>
-							Subject
-						</label>
-						<input
-							id="content-subject"
-							type="text"
-							value={subject}
-							onChange={(e) => setSubject(e.target.value)}
-							className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-							placeholder="e.g., Mathematics, History, Science"
-						/>
-					</div>
-				</div>
-
-				<div>
-					<label
-						htmlFor="content-tags"
-						className="block text-sm font-medium text-foreground mb-2"
-					>
-						Tags (comma-separated)
-					</label>
-					<input
-						id="content-tags"
-						type="text"
-						value={tags}
-						onChange={(e) => setTags(e.target.value)}
-						className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-						placeholder="e.g., algebra, equations, problem-solving"
-					/>
-				</div>
+					</FormField>
+				</FormSection>
 
 				{/* Content-specific fields */}
-				<div>
-					<h3 className="text-lg font-medium text-foreground mb-4">
-						Content Details
-					</h3>
+				<FormSection title="Content Details">
 					{renderContentFields()}
-				</div>
+				</FormSection>
 
 				{/* Actions */}
 				<div className="flex justify-end space-x-4 pt-6 border-t border-card-border">
-					<button
+					<Button
 						type="button"
+						variant="secondary"
 						onClick={() => router.back()}
-						className="px-4 py-2 border border-border text-sm font-medium rounded-md text-foreground bg-card-background hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring"
 					>
 						Cancel
-					</button>
-					<button
-						type="submit"
-						disabled={loading}
-						className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-background bg-primary hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50"
-					>
+					</Button>
+					<Button type="submit" disabled={loading}>
 						{loading
 							? "Saving..."
 							: initialData
 								? "Update Content"
 								: "Create Content"}
-					</button>
+					</Button>
 				</div>
-			</div>
+			</Card>
 		</form>
 	);
 }

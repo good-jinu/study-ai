@@ -9,6 +9,7 @@
  */
 
 import type React from "react";
+import { Alert, ContentTypeIndicator, MetadataDisplay } from "@/components/ui";
 import type { StudyContent } from "@/types";
 import { FlashcardRenderer } from "./FlashcardRenderer";
 import { LessonRenderer } from "./LessonRenderer";
@@ -30,21 +31,19 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({
 		content,
 	}) => (
 		<div className="flex flex-col items-center justify-center h-full p-6 text-center">
-			<div className="bg-warning-muted border border-warning rounded-lg p-4 max-w-md">
-				<h3 className="text-lg font-semibold text-warning-foreground mb-2">
-					Unknown Content Type
-				</h3>
-				<p className="text-warning-foreground mb-4">
-					Content type "{content.type}" is not supported.
-				</p>
-				<div className="text-left">
-					<h4 className="font-medium text-warning-foreground mb-2">
-						{content.title}
-					</h4>
-					<pre className="text-sm text-muted-foreground bg-muted p-2 rounded overflow-auto">
-						{JSON.stringify(content.content, null, 2)}
-					</pre>
-				</div>
+			<div className="max-w-md">
+				<Alert variant="warning">
+					<h3 className="text-lg font-semibold mb-2">Unknown Content Type</h3>
+					<p className="mb-4">
+						Content type "{content.type}" is not supported.
+					</p>
+					<div className="text-left">
+						<h4 className="font-medium mb-2">{content.title}</h4>
+						<pre className="text-sm text-muted-foreground bg-muted p-2 rounded overflow-auto">
+							{JSON.stringify(content.content, null, 2)}
+						</pre>
+					</div>
+				</Alert>
 			</div>
 		</div>
 	);
@@ -54,9 +53,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({
 		<div className="w-full h-full flex flex-col bg-background text-foreground">
 			{/* Content type indicator for debugging */}
 			<div className="absolute top-4 right-4 z-10">
-				<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent text-accent-foreground">
-					{content.type}
-				</span>
+				<ContentTypeIndicator type={content.type} />
 			</div>
 
 			{/* Content area with full height */}
@@ -79,30 +76,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({
 			</div>
 
 			{/* Metadata display */}
-			{content.metadata && (
-				<div className="absolute bottom-4 left-4 z-10">
-					<div className="flex flex-wrap gap-2">
-						{content.metadata.difficulty && (
-							<span
-								className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-									content.metadata.difficulty === "easy"
-										? "bg-success-muted text-success-foreground"
-										: content.metadata.difficulty === "medium"
-											? "bg-warning-muted text-warning-foreground"
-											: "bg-error-muted text-error-foreground"
-								}`}
-							>
-								{content.metadata.difficulty}
-							</span>
-						)}
-						{content.metadata.subject && (
-							<span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground">
-								{content.metadata.subject}
-							</span>
-						)}
-					</div>
-				</div>
-			)}
+			<MetadataDisplay metadata={content.metadata} />
 		</div>
 	);
 };
