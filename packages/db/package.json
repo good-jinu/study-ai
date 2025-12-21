@@ -12,9 +12,11 @@
 	"dependencies": {
 		"@aws-sdk/client-dynamodb": "^3.0.0",
 		"@aws-sdk/lib-dynamodb": "^3.0.0",
-		"@study-ai/core": "workspace:*"
+		"@study-ai/core": "workspace:*",
+		"uuid": "^10.0.0"
 	},
 	"devDependencies": {
+		"@types/uuid": "^10.0.0",
 		"typescript": "^5"
 	}
 }
