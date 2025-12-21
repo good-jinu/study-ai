@@ -3,7 +3,7 @@
 import type { ContentType, StudyContent } from "@study-ai/core";
 import { Edit, Eye, Filter, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	deleteContentAction,
 	fetchAllContentAction,
@@ -23,44 +23,43 @@ export default function ContentList() {
 	const [error, setError] = useState<string | null>(null);
 	const [selectedType, setSelectedType] = useState("all");
 	const [hasMore, setHasMore] = useState(false);
-	const [offset, setOffset] = useState(0);
+	const offsetRef = useRef(0);
 	const limit = 20;
 
-	const loadContent = useCallback(
-		async (reset = false) => {
-			try {
-				setLoading(true);
-				const currentOffset = reset ? 0 : offset;
+	const loadContent = async (reset = false) => {
+		try {
+			setLoading(true);
+			const currentOffset = reset ? 0 : offsetRef.current;
 
-				const response = await fetchAllContentAction({
-					offset: currentOffset,
-					limit,
-					type: selectedType,
-				});
+			const response = await fetchAllContentAction({
+				offset: currentOffset,
+				limit,
+				type: selectedType === "all" ? undefined : selectedType,
+			});
 
-				if (reset) {
-					setContents(response.contents);
-					setOffset(limit);
-				} else {
-					setContents((prev) => [...prev, ...response.contents]);
-					setOffset((prev) => prev + limit);
-				}
-
-				setHasMore(response.hasMore);
-				setError(null);
-			} catch (err) {
-				setError(err instanceof Error ? err.message : "Failed to load content");
-			} finally {
-				setLoading(false);
+			if (reset) {
+				setContents(response.contents);
+				offsetRef.current = limit;
+			} else {
+				setContents((prev) => [...prev, ...response.contents]);
+				offsetRef.current += limit;
 			}
-		},
-		[offset, selectedType],
-	);
 
+			setHasMore(response.hasMore);
+			setError(null);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Failed to load content");
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// Load content when selectedType changes
 	useEffect(() => {
-		setOffset(0);
+		offsetRef.current = 0;
+		setContents([]);
 		loadContent(true);
-	}, [loadContent]);
+	}, [selectedType]);
 
 	const handleDelete = async (id: string, title: string) => {
 		if (!confirm(`Are you sure you want to delete "${title}"?`)) {

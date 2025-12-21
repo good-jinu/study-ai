@@ -1,14 +1,11 @@
 {
 	"root": false,
 	"extends": ["../../biome.json"],
-	"overrides": [
-		{
-			"linter": {
-				"domains": {
-					"next": "recommended",
-					"react": "recommended"
-				}
+	"linter": {
+		"rules": {
+			"correctness": {
+				"useExhaustiveDependencies": "off"
 			}
 		}
-	]
+	}
 }
