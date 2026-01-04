@@ -1,16 +1,26 @@
-import type { Metadata } from "next";
-import ContentsScreen from "@/components/ContentsScreen";
+import Link from "next/link";
+import { auth } from "@/auth";
 
-/**
- * Metadata for the home page
- */
-export const metadata: Metadata = {
-	title: "AI Study Platform",
-	description:
-		"An AI-powered studying platform that delivers educational content in a short-form, infinite-scroll format. Study with flashcards, quizzes, and bite-sized lessons.",
-	keywords: ["study", "education", "AI", "flashcards", "quiz", "learning"],
-};
+export default async function Home() {
+  const session = await auth();
 
-export default function Home() {
-	return <ContentsScreen />;
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <h1 className="text-4xl font-bold mb-4">Contents List</h1>
+      <p className="mb-4">Welcome to the study platform.</p>
+
+      {session ? (
+         <div className="flex flex-col items-center gap-4">
+            <p>Signed in as {session.user?.email}</p>
+            <Link href="/contents" className="text-blue-500 hover:underline">
+                Go to Contents
+            </Link>
+         </div>
+      ) : (
+          <Link href="/login" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Sign In
+          </Link>
+      )}
+    </div>
+  );
 }
