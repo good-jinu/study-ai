@@ -38,15 +38,23 @@ export default $config({
 			},
 		});
 
-		new sst.aws.Nextjs("StudyAIWeb", {
-			domain: {
-				name: process.env.WEB_DOMAIN ?? "",
-			},
-			environment: {
-				APP_AWS_REGION: process.env.APP_AWS_REGION ?? "us-east-1",
-			},
-			path: "packages/web",
-			link: [contentsTable],
+		const mediaBucket = new sst.aws.Bucket("MediaBucket", {
+			public: true,
 		});
+
+		new sst.aws.Nextjs(
+			"StudyAIWeb",
+			{
+				domain: {
+					name: process.env.WEB_DOMAIN ?? "",
+				},
+				environment: {
+					APP_AWS_REGION: process.env.APP_AWS_REGION ?? "us-east-1",
+				},
+				path: "packages/web",
+				link: [contentsTable, mediaBucket],
+			},
+			{ dependsOn: mediaBucket },
+		);
 	},
 });

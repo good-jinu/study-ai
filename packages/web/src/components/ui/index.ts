@@ -26,6 +26,7 @@ export { default as IdleMotion, type IdleMotionProps } from "./IdleMotion";
 export { Input, type InputProps } from "./Input";
 export { KeyPointsList } from "./KeyPointsList";
 export { Label, type LabelProps } from "./Label";
+export { MediaDisplay } from "./MediaDisplay";
 export { MetadataDisplay } from "./MetadataDisplay";
 export { Select, type SelectProps } from "./Select";
 export { default as Spinner } from "./Spinner";

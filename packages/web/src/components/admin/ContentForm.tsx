@@ -5,6 +5,7 @@ import type {
 	DifficultyLevel,
 	FlashcardContent,
 	LessonContent,
+	MediaAttachment,
 	QuizContent,
 	StudyContent,
 	SummaryContent,
@@ -27,6 +28,7 @@ import {
 	Select,
 	Textarea,
 } from "@/components/ui";
+import MediaUpload from "./MediaUpload";
 
 interface ContentFormProps {
 	initialData?: StudyContent;
@@ -61,6 +63,9 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 	const [subject, setSubject] = useState(initialData?.metadata?.subject || "");
 	const [tags, setTags] = useState(
 		initialData?.metadata?.tags?.join(", ") || "",
+	);
+	const [mediaAttachments, setMediaAttachments] = useState<MediaAttachment[]>(
+		initialData?.metadata?.media || [],
 	);
 
 	// Content-specific state
@@ -136,6 +141,7 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 									.map((tag) => tag.trim())
 									.filter(Boolean)
 							: [],
+						media: mediaAttachments,
 					},
 				};
 
@@ -164,6 +170,7 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 			difficulty,
 			subject,
 			tags,
+			mediaAttachments,
 			flashcardContent,
 			quizContent,
 			lessonContent,
@@ -549,6 +556,15 @@ export default function ContentForm({ initialData }: ContentFormProps) {
 							placeholder="e.g., algebra, equations, problem-solving"
 						/>
 					</FormField>
+				</FormSection>
+
+				{/* Media Attachments */}
+				<FormSection title="Media Attachments">
+					<MediaUpload
+						value={mediaAttachments}
+						onChange={setMediaAttachments}
+						maxFiles={5}
+					/>
 				</FormSection>
 
 				{/* Content-specific fields */}

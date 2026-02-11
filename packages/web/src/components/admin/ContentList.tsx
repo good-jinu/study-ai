@@ -152,7 +152,7 @@ export default function ContentList() {
 									</p>
 								)}
 								{content.metadata?.tags && content.metadata.tags.length > 0 && (
-									<div className="flex flex-wrap gap-1">
+									<div className="flex flex-wrap gap-1 mb-2">
 										{content.metadata.tags.map((tag) => (
 											<Badge key={tag} variant="default" className="text-xs">
 												{tag}
@@ -160,6 +160,16 @@ export default function ContentList() {
 										))}
 									</div>
 								)}
+								{content.metadata?.media &&
+									content.metadata.media.length > 0 && (
+										<div className="flex items-center space-x-1 text-xs text-muted-foreground">
+											<span>📎</span>
+											<span>
+												{content.metadata.media.length} attachment
+												{content.metadata.media.length !== 1 ? "s" : ""}
+											</span>
+										</div>
+									)}
 							</div>
 						</div>
 

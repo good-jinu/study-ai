@@ -55,6 +55,7 @@ export async function fetchStudyContent({
 					difficulty: item.difficulty as DifficultyLevel | undefined,
 					subject: item.subject,
 					tags: item.tags || [],
+					media: item.media || [],
 				},
 			}),
 		);
@@ -118,6 +119,7 @@ export async function fetchContentByType({
 					difficulty: item.difficulty as DifficultyLevel | undefined,
 					subject: item.subject,
 					tags: item.tags || [],
+					media: item.media || [],
 				},
 			}),
 		);
@@ -200,6 +202,7 @@ export async function getContentById({
 				difficulty: item.difficulty as DifficultyLevel | undefined,
 				subject: item.subject,
 				tags: item.tags || [],
+				media: item.media || [],
 			},
 		};
 	} catch (error) {
@@ -229,6 +232,7 @@ export async function createContent({
 			difficulty: content.metadata?.difficulty,
 			subject: content.metadata?.subject,
 			tags: content.metadata?.tags || [],
+			media: content.metadata?.media || [],
 			createdAt: now,
 			authorId: "admin", // TODO: Replace with actual user ID when auth is implemented
 		};
@@ -264,7 +268,7 @@ export async function updateContent({
 				contentId,
 			},
 			UpdateExpression:
-				"SET #type = :type, title = :title, content = :content, difficulty = :difficulty, subject = :subject, tags = :tags",
+				"SET #type = :type, title = :title, content = :content, difficulty = :difficulty, subject = :subject, tags = :tags, media = :media",
 			ExpressionAttributeNames: {
 				"#type": "type",
 			},
@@ -275,6 +279,7 @@ export async function updateContent({
 				":difficulty": content.metadata?.difficulty,
 				":subject": content.metadata?.subject,
 				":tags": content.metadata?.tags || [],
+				":media": content.metadata?.media || [],
 			},
 		});
 

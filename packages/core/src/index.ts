@@ -16,12 +16,24 @@ export type ContentType = "flashcard" | "quiz" | "lesson" | "summary";
 export type DifficultyLevel = "easy" | "medium" | "hard";
 
 /**
+ * Media attachment for content
+ */
+export interface MediaAttachment {
+	key: string;
+	url: string;
+	type: "image" | "video" | "audio" | "document";
+	fileName: string;
+	size?: number;
+}
+
+/**
  * Metadata associated with study content
  */
 export interface ContentMetadata {
 	difficulty?: DifficultyLevel;
 	subject?: string;
 	tags?: string[];
+	media?: MediaAttachment[];
 }
 
 /**
@@ -112,6 +124,7 @@ export interface DynamoDBContentItem {
 	difficulty?: string;
 	subject?: string;
 	tags?: string[];
+	media?: MediaAttachment[];
 	createdAt: string;
 	authorId: string;
 }
