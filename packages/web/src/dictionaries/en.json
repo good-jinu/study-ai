@@ -1,0 +1,61 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "signIn": "Sign In",
+    "signInWithGoogle": "Sign in with Google",
+    "startTraining": "Start Training",
+    "completed": "Completed ✅",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loadMore": "Load More",
+    "subject": "Subject",
+    "attachment": "attachment",
+    "attachments": "attachments",
+    "loginRequired": "Login Required",
+    "goToLogin": "Go to Login Page",
+    "backToDashboard": "← Back to Dashboard"
+  },
+  "missions": {
+    "inputData": "Input Data",
+    "errorGenerating": "An error occurred while generating the AI response. Please try again later.",
+    "processing": "Processing...",
+    "askAI": "Ask AI",
+    "resultTitle": "✨ AI Training Result",
+    "copied": "Copied! ✨",
+    "copyToClipboard": "Copy to Clipboard 📋"
+  },
+  "home": {
+    "title": "🚀 AI Office Worker Training Center",
+    "subtitle": "Boost your work efficiency with practical AI tools and level up!",
+    "currentLevel": "Current Level",
+    "missionProgress": "Mission Progress",
+    "knowledgeBase": "Knowledge Base",
+    "viewStudyContent": "View Study Content",
+    "checkOutMaterials": "Check out existing learning materials.",
+    "loginToStart": "Login to start your training!",
+    "noMission": "No mission available"
+  },
+  "contents": {
+    "unableToLoad": "Unable to load content",
+    "problemLoading": "There was a problem loading the study platform. Please try again.",
+    "reloadPage": "Reload Page",
+    "loadingMessage": "Loading your study content..."
+  },
+  "admin": {
+    "title": "Content Library",
+    "subtitle": "Manage flashcards, quizzes, lessons, and summaries",
+    "allTypes": "All Types",
+    "flashcards": "Flashcards",
+    "quizzes": "Quizzes",
+    "lessons": "Lessons",
+    "summaries": "Summaries",
+    "failedToLoad": "Failed to load content",
+    "confirmDelete": "Are you sure you want to delete \"{title}\"?",
+    "failedToDelete": "Failed to delete content",
+    "noContent": "No content found",
+    "startCreating": "Get started by creating your first piece of content.",
+    "createContent": "Create Content"
+  }
+}

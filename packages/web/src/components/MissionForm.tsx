@@ -3,12 +3,14 @@
 import type { Mission } from "@study-ai/core";
 import { useState } from "react";
 import { submitMissionAction } from "@/actions/missionActions";
+import { useDictionary } from "@/components/DictionaryProvider";
 
 interface MissionFormProps {
 	mission: Mission;
 }
 
 export default function MissionForm({ mission }: MissionFormProps) {
+	const dict = useDictionary();
 	const [input, setInput] = useState("");
 	const [output, setOutput] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -27,7 +29,7 @@ export default function MissionForm({ mission }: MissionFormProps) {
 		} catch (err) {
 			console.error(err);
 			setError(
-				"An error occurred while generating the AI response. Please try again later.",
+				dict.missions.errorGenerating,
 			);
 		} finally {
 			setLoading(false);
@@ -42,7 +44,7 @@ export default function MissionForm({ mission }: MissionFormProps) {
 						htmlFor="input"
 						className="block text-sm font-medium text-muted-foreground mb-2"
 					>
-						Input Data
+						{dict.missions.inputData}
 					</label>
 					<textarea
 						id="input"
@@ -66,10 +68,10 @@ export default function MissionForm({ mission }: MissionFormProps) {
 					{loading ? (
 						<div className="flex items-center justify-center gap-2">
 							<div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-							Processing...
+							{dict.missions.processing}
 						</div>
 					) : (
-						"Ask AI"
+						dict.missions.askAI
 					)}
 				</button>
 			</form>
@@ -83,7 +85,7 @@ export default function MissionForm({ mission }: MissionFormProps) {
 			{output && (
 				<div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
 					<h3 className="text-xl font-bold text-foreground">
-						✨ AI Training Result
+						{dict.missions.resultTitle}
 					</h3>
 					<div className="bg-card-background p-6 rounded-xl shadow-sm border border-card-border whitespace-pre-wrap text-foreground leading-relaxed">
 						{output}
@@ -97,7 +99,7 @@ export default function MissionForm({ mission }: MissionFormProps) {
 						}}
 						className="inline-flex items-center text-primary font-medium hover:underline gap-2"
 					>
-						{copied ? "Copied! ✨" : "Copy to Clipboard 📋"}
+						{copied ? dict.missions.copied : dict.missions.copyToClipboard}
 					</button>
 				</div>
 			)}

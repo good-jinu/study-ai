@@ -3,22 +3,19 @@
 import type { ContentType, StudyContent } from "@study-ai/core";
 import { Edit, Eye, Filter, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
 	deleteContentAction,
 	fetchAllContentAction,
 } from "@/actions/adminActions";
 import { Alert, Badge, Button, Card, Select } from "@/components/ui";
-
-const CONTENT_TYPES: { value: string; label: string }[] = [
-	{ value: "all", label: "All Types" },
-	{ value: "flashcard", label: "Flashcards" },
-	{ value: "quiz", label: "Quizzes" },
-	{ value: "lesson", label: "Lessons" },
-	{ value: "summary", label: "Summaries" },
-];
+import { useDictionary } from "@/components/DictionaryProvider";
 
 export default function ContentList() {
+	const dict = useDictionary();
+	const params = useParams();
+	const lang = params.lang as string;
 	const [contents, setContents] = useState<StudyContent[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -26,6 +23,14 @@ export default function ContentList() {
 	const [hasMore, setHasMore] = useState(false);
 	const offsetRef = useRef(0);
 	const limit = 20;
+
+	const CONTENT_TYPES = [
+		{ value: "all", label: dict.admin.allTypes },
+		{ value: "flashcard", label: dict.admin.flashcards },
+		{ value: "quiz", label: dict.admin.quizzes },
+		{ value: "lesson", label: dict.admin.lessons },
+		{ value: "summary", label: dict.admin.summaries },
+	];
 
 	const loadContent = async (reset = false) => {
 		try {
@@ -49,7 +54,7 @@ export default function ContentList() {
 			setHasMore(response.hasMore);
 			setError(null);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Failed to load content");
+			setError(err instanceof Error ? err.message : dict.admin.failedToLoad);
 		} finally {
 			setLoading(false);
 		}
@@ -63,7 +68,9 @@ export default function ContentList() {
 	}, [selectedType]);
 
 	const handleDelete = async (id: string, title: string) => {
-		if (!confirm(`Are you sure you want to delete "${title}"?`)) {
+		if (
+			!confirm(dict.admin.confirmDelete.replace("{title}", title))
+		) {
 			return;
 		}
 
@@ -72,10 +79,10 @@ export default function ContentList() {
 			if (result.success) {
 				setContents((prev) => prev.filter((content) => content.id !== id));
 			} else {
-				alert(result.error || "Failed to delete content");
+				alert(result.error || dict.admin.failedToDelete);
 			}
 		} catch (_err) {
-			alert("Failed to delete content");
+			alert(dict.admin.failedToDelete);
 		}
 	};
 
@@ -148,7 +155,7 @@ export default function ContentList() {
 								</h3>
 								{content.metadata?.subject && (
 									<p className="text-sm text-muted-foreground mb-2">
-										Subject: {content.metadata.subject}
+										{dict.common.subject}: {content.metadata.subject}
 									</p>
 								)}
 								{content.metadata?.tags && content.metadata.tags.length > 0 && (
@@ -165,8 +172,10 @@ export default function ContentList() {
 										<div className="flex items-center space-x-1 text-xs text-muted-foreground">
 											<span>📎</span>
 											<span>
-												{content.metadata.media.length} attachment
-												{content.metadata.media.length !== 1 ? "s" : ""}
+												{content.metadata.media.length}{" "}
+												{content.metadata.media.length !== 1
+													? dict.common.attachments
+													: dict.common.attachment}
 											</span>
 										</div>
 									)}
@@ -176,9 +185,9 @@ export default function ContentList() {
 						<div className="flex items-center justify-between pt-4 border-t border-card-border">
 							<div className="flex space-x-2">
 								<Button variant="secondary" size="sm" asChild>
-									<Link href={`/admin/content/${content.id}`}>
+									<Link href={`/${lang}/admin/content/${content.id}`}>
 										<Edit className="h-4 w-4 mr-1" />
-										Edit
+										{dict.common.edit}
 									</Link>
 								</Button>
 								<Button
@@ -187,7 +196,7 @@ export default function ContentList() {
 									onClick={() => handleDelete(content.id, content.title)}
 								>
 									<Trash2 className="h-4 w-4 mr-1" />
-									Delete
+									{dict.common.delete}
 								</Button>
 							</div>
 						</div>
@@ -203,7 +212,7 @@ export default function ContentList() {
 						onClick={() => loadContent(false)}
 						disabled={loading}
 					>
-						{loading ? "Loading..." : "Load More"}
+						{loading ? dict.common.loading : dict.common.loadMore}
 					</Button>
 				</div>
 			)}
@@ -212,14 +221,14 @@ export default function ContentList() {
 				<div className="text-center py-12">
 					<Eye className="mx-auto h-12 w-12 text-muted-foreground" />
 					<h3 className="mt-2 text-sm font-medium text-foreground">
-						No content found
+						{dict.admin.noContent}
 					</h3>
 					<p className="mt-1 text-sm text-muted-foreground">
-						Get started by creating your first piece of content.
+						{dict.admin.startCreating}
 					</p>
 					<div className="mt-6">
 						<Button asChild>
-							<Link href="/admin/content/new">Create Content</Link>
+							<Link href={`/${lang}/admin/content/new`}>{dict.admin.createContent}</Link>
 						</Button>
 					</div>
 				</div>

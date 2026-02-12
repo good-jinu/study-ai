@@ -4,8 +4,15 @@ import {
 	getMissionsAction,
 } from "@/actions/missionActions";
 import { auth } from "@/auth";
+import { getDictionary } from "@/dictionaries";
 
-export default async function Home() {
+export default async function Home({
+	params,
+}: {
+	params: Promise<{ lang: string }>;
+}) {
+	const { lang } = await params;
+	const dict = await getDictionary(lang);
 	const session = await auth();
 	const user = session ? await getCurrentUserAction() : null;
 	const missions = await getMissionsAction();
@@ -15,11 +22,9 @@ export default async function Home() {
 			<div className="max-w-4xl mx-auto">
 				<header className="mb-12 text-center">
 					<h1 className="text-4xl font-extrabold text-foreground mb-2">
-						🚀 AI Office Worker Training Center
+						{dict.home.title}
 					</h1>
-					<p className="text-lg text-muted-foreground">
-						Boost your work efficiency with practical AI tools and level up!
-					</p>
+					<p className="text-lg text-muted-foreground">{dict.home.subtitle}</p>
 				</header>
 
 				{session && user ? (
@@ -29,7 +34,7 @@ export default async function Home() {
 							<div className="flex items-center justify-between">
 								<div>
 									<p className="text-sm font-medium text-muted-foreground mb-1">
-										Current Level
+										{dict.home.currentLevel}
 									</p>
 									<h2 className="text-3xl font-bold text-primary">
 										{user.level}
@@ -37,7 +42,7 @@ export default async function Home() {
 								</div>
 								<div className="text-right">
 									<p className="text-sm font-medium text-muted-foreground mb-1">
-										Mission Progress
+										{dict.home.missionProgress}
 									</p>
 									<p className="text-2xl font-bold text-foreground">
 										{user.completedMissions.length} / {missions.length}
@@ -63,7 +68,7 @@ export default async function Home() {
 								return (
 									<Link
 										key={mission.missionId}
-										href={`/missions/${mission.missionId}`}
+										href={`/${lang}/missions/${mission.missionId}`}
 										className="group bg-card-background p-6 rounded-xl shadow-sm border border-card-border hover:border-primary transition-all"
 									>
 										<div className="text-4xl mb-4">{mission.uiConfig.icon}</div>
@@ -75,7 +80,7 @@ export default async function Home() {
 										</p>
 										{isCompleted && (
 											<span className="mt-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-muted text-success">
-												Completed ✅
+												{dict.common.completed}
 											</span>
 										)}
 									</Link>
@@ -86,19 +91,19 @@ export default async function Home() {
 						{/* Previous Platform Link */}
 						<div className="pt-8 border-t border-card-border">
 							<h3 className="text-lg font-bold text-foreground mb-4">
-								Knowledge Base
+								{dict.home.knowledgeBase}
 							</h3>
 							<Link
-								href="/contents"
+								href={`/${lang}/contents`}
 								className="inline-flex items-center gap-2 p-6 bg-card-background rounded-xl border border-card-border hover:border-secondary transition-all w-full md:w-auto"
 							>
 								<span className="text-2xl">📚</span>
 								<div>
 									<p className="font-bold text-foreground">
-										View Study Content
+										{dict.home.viewStudyContent}
 									</p>
 									<p className="text-sm text-muted-foreground">
-										Check out existing learning materials.
+										{dict.home.checkOutMaterials}
 									</p>
 								</div>
 							</Link>
@@ -107,13 +112,13 @@ export default async function Home() {
 				) : (
 					<div className="text-center bg-card-background p-12 rounded-2xl shadow-sm border border-card-border">
 						<p className="text-xl text-muted-foreground mb-8">
-							Login to start your training!
+							{dict.home.loginToStart}
 						</p>
 						<Link
-							href="/login"
+							href={`/${lang}/login`}
 							className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-success-foreground bg-primary hover:opacity-90 transition-opacity"
 						>
-							Start Training
+							{dict.common.startTraining}
 						</Link>
 					</div>
 				)}

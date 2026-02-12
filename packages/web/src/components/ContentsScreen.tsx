@@ -2,6 +2,7 @@
 
 import { FastContent, type FetchCallback } from "@fastcontents/react";
 import { ContentRenderer } from "@/components/ContentRenderer";
+import { useDictionary } from "@/components/DictionaryProvider";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LoadingFallback } from "@/components/LoadingFallback";
 import { NavigationControls } from "@/components/NavigationControls";
@@ -16,6 +17,8 @@ import type { StudyContent } from "@/types";
  * Separated from the server component page for better performance.
  */
 export default function ContentsScreen() {
+	const dict = useDictionary();
+
 	// Fetch callback that integrates with ContentService via server action
 	const fetchCallback: FetchCallback<StudyContent> = async ({
 		offset,
@@ -49,18 +52,17 @@ export default function ContentsScreen() {
 						<div className="text-center">
 							<div className="text-error text-4xl mb-4">⚠️</div>
 							<h2 className="text-xl font-semibold text-foreground mb-2">
-								Unable to load content
+								{dict.contents.unableToLoad}
 							</h2>
 							<p className="text-muted-foreground mb-6">
-								There was a problem loading the study platform. Please try
-								again.
+								{dict.contents.problemLoading}
 							</p>
 							<button
 								type="button"
 								onClick={handleRetry}
 								className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
 							>
-								Reload Page
+								{dict.contents.reloadPage}
 							</button>
 						</div>
 					</div>
@@ -72,7 +74,9 @@ export default function ContentsScreen() {
 					renderControls={NavigationControls}
 					initialBatchSize={3}
 					batchSize={2}
-					fallback={<LoadingFallback message="Loading your study content..." />}
+					fallback={
+						<LoadingFallback message={dict.contents.loadingMessage} />
+					}
 				/>
 			</ErrorBoundary>
 		</div>
