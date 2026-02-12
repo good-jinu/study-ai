@@ -1,24 +1,26 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import {
 	getCurrentUserAction,
 	getMissionsAction,
 } from "@/actions/missionActions";
 import { auth } from "@/auth";
+import { getTranslations } from "next-intl/server";
 
 export default async function Home() {
 	const session = await auth();
 	const user = session ? await getCurrentUserAction() : null;
 	const missions = await getMissionsAction();
+    const t = await getTranslations('HomePage');
 
 	return (
 		<main className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-4xl mx-auto">
 				<header className="mb-12 text-center">
 					<h1 className="text-4xl font-extrabold text-foreground mb-2">
-						🚀 AI Office Worker Training Center
+						{t('title')}
 					</h1>
 					<p className="text-lg text-muted-foreground">
-						Boost your work efficiency with practical AI tools and level up!
+						{t('description')}
 					</p>
 				</header>
 
@@ -29,7 +31,7 @@ export default async function Home() {
 							<div className="flex items-center justify-between">
 								<div>
 									<p className="text-sm font-medium text-muted-foreground mb-1">
-										Current Level
+										{t('currentLevel')}
 									</p>
 									<h2 className="text-3xl font-bold text-primary">
 										{user.level}
@@ -37,7 +39,7 @@ export default async function Home() {
 								</div>
 								<div className="text-right">
 									<p className="text-sm font-medium text-muted-foreground mb-1">
-										Mission Progress
+										{t('missionProgress')}
 									</p>
 									<p className="text-2xl font-bold text-foreground">
 										{user.completedMissions.length} / {missions.length}
@@ -75,7 +77,7 @@ export default async function Home() {
 										</p>
 										{isCompleted && (
 											<span className="mt-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-muted text-success">
-												Completed ✅
+												{t('completed')}
 											</span>
 										)}
 									</Link>
@@ -86,7 +88,7 @@ export default async function Home() {
 						{/* Previous Platform Link */}
 						<div className="pt-8 border-t border-card-border">
 							<h3 className="text-lg font-bold text-foreground mb-4">
-								Knowledge Base
+								{t('knowledgeBase')}
 							</h3>
 							<Link
 								href="/contents"
@@ -95,10 +97,10 @@ export default async function Home() {
 								<span className="text-2xl">📚</span>
 								<div>
 									<p className="font-bold text-foreground">
-										View Study Content
+										{t('viewStudyContent')}
 									</p>
 									<p className="text-sm text-muted-foreground">
-										Check out existing learning materials.
+										{t('studyContentDesc')}
 									</p>
 								</div>
 							</Link>
@@ -107,13 +109,13 @@ export default async function Home() {
 				) : (
 					<div className="text-center bg-card-background p-12 rounded-2xl shadow-sm border border-card-border">
 						<p className="text-xl text-muted-foreground mb-8">
-							Login to start your training!
+							{t('loginMessage')}
 						</p>
 						<Link
 							href="/login"
 							className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-success-foreground bg-primary hover:opacity-90 transition-opacity"
 						>
-							Start Training
+							{t('startTraining')}
 						</Link>
 					</div>
 				)}

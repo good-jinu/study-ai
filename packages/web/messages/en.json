@@ -1,0 +1,14 @@
+{
+  "HomePage": {
+    "title": "🚀 AI Office Worker Training Center",
+    "description": "Boost your work efficiency with practical AI tools and level up!",
+    "currentLevel": "Current Level",
+    "missionProgress": "Mission Progress",
+    "knowledgeBase": "Knowledge Base",
+    "viewStudyContent": "View Study Content",
+    "studyContentDesc": "Check out existing learning materials.",
+    "loginMessage": "Login to start your training!",
+    "startTraining": "Start Training",
+    "completed": "Completed ✅"
+  }
+}

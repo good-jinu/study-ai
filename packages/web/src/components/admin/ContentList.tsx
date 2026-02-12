@@ -2,7 +2,7 @@
 
 import type { ContentType, StudyContent } from "@study-ai/core";
 import { Edit, Eye, Filter, Trash2 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useEffect, useRef, useState } from "react";
 import {
 	deleteContentAction,
