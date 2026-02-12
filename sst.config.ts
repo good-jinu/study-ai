@@ -38,6 +38,36 @@ export default $config({
 			},
 		});
 
+		const usersTable = new sst.aws.Dynamo("UsersTable", {
+			fields: {
+				userId: "string",
+			},
+			primaryIndex: { hashKey: "userId" },
+		});
+
+		const missionsTable = new sst.aws.Dynamo("MissionsTable", {
+			fields: {
+				missionId: "string",
+			},
+			primaryIndex: { hashKey: "missionId" },
+		});
+
+		const submissionsTable = new sst.aws.Dynamo("SubmissionsTable", {
+			fields: {
+				submissionId: "string",
+				userId: "string",
+				createdAt: "string",
+			},
+			primaryIndex: { hashKey: "submissionId" },
+			globalIndexes: {
+				AuthorIndex: {
+					hashKey: "userId",
+					rangeKey: "createdAt",
+					projection: "all",
+				},
+			},
+		});
+
 		const mediaBucket = new sst.aws.Bucket("MediaBucket", {
 			public: true,
 		});
@@ -53,12 +83,19 @@ export default $config({
 					GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID ?? "",
 					GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ?? "",
 					AUTH_SECRET: process.env.AUTH_SECRET ?? "",
+					AUTH_TRUST_HOST: "true",
 					NEXTAUTH_URL:
 						process.env.NEXTAUTH_URL ??
 						(process.env.WEB_DOMAIN ? `https://${process.env.WEB_DOMAIN}` : ""),
 				},
 				path: "packages/web",
-				link: [contentsTable, mediaBucket],
+				link: [
+					contentsTable,
+					usersTable,
+					missionsTable,
+					submissionsTable,
+					mediaBucket,
+				],
 			},
 			{ dependsOn: mediaBucket },
 		);
