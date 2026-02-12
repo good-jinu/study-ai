@@ -16,10 +16,10 @@ export default async function MissionPage({ params }: MissionPageProps) {
 		return (
 			<div className="min-h-screen flex flex-col items-center justify-center p-4 text-center bg-background">
 				<h1 className="text-2xl font-bold mb-4 text-foreground">
-					로그인이 필요합니다.
+					Login Required
 				</h1>
 				<Link href="/login" className="text-primary hover:underline">
-					로그인 페이지로 이동
+					Go to Login Page
 				</Link>
 			</div>
 		);
@@ -38,7 +38,7 @@ export default async function MissionPage({ params }: MissionPageProps) {
 					href="/"
 					className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-8 transition-colors"
 				>
-					← 대시보드로 돌아가기
+					← Back to Dashboard
 				</Link>
 
 				<header className="mb-8">

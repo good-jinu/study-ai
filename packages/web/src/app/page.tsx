@@ -15,10 +15,10 @@ export default async function Home() {
 			<div className="max-w-4xl mx-auto">
 				<header className="mb-12 text-center">
 					<h1 className="text-4xl font-extrabold text-foreground mb-2">
-						🚀 AI 직장인 훈련소
+						🚀 AI Office Worker Training Center
 					</h1>
 					<p className="text-lg text-muted-foreground">
-						실무형 AI 도구로 업무 효율을 높이고 레벨업하세요!
+						Boost your work efficiency with practical AI tools and level up!
 					</p>
 				</header>
 
@@ -29,7 +29,7 @@ export default async function Home() {
 							<div className="flex items-center justify-between">
 								<div>
 									<p className="text-sm font-medium text-muted-foreground mb-1">
-										현재 등급
+										Current Level
 									</p>
 									<h2 className="text-3xl font-bold text-primary">
 										{user.level}
@@ -37,7 +37,7 @@ export default async function Home() {
 								</div>
 								<div className="text-right">
 									<p className="text-sm font-medium text-muted-foreground mb-1">
-										미션 완료 현황
+										Mission Progress
 									</p>
 									<p className="text-2xl font-bold text-foreground">
 										{user.completedMissions.length} / {missions.length}
@@ -75,7 +75,7 @@ export default async function Home() {
 										</p>
 										{isCompleted && (
 											<span className="mt-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-muted text-success">
-												완료됨 ✅
+												Completed ✅
 											</span>
 										)}
 									</Link>
@@ -86,7 +86,7 @@ export default async function Home() {
 						{/* Previous Platform Link */}
 						<div className="pt-8 border-t border-card-border">
 							<h3 className="text-lg font-bold text-foreground mb-4">
-								지식 베이스
+								Knowledge Base
 							</h3>
 							<Link
 								href="/contents"
@@ -94,9 +94,11 @@ export default async function Home() {
 							>
 								<span className="text-2xl">📚</span>
 								<div>
-									<p className="font-bold text-foreground">학습 콘텐츠 보기</p>
+									<p className="font-bold text-foreground">
+										View Study Content
+									</p>
 									<p className="text-sm text-muted-foreground">
-										기존 학습 자료를 확인하세요.
+										Check out existing learning materials.
 									</p>
 								</div>
 							</Link>
@@ -105,13 +107,13 @@ export default async function Home() {
 				) : (
 					<div className="text-center bg-card-background p-12 rounded-2xl shadow-sm border border-card-border">
 						<p className="text-xl text-muted-foreground mb-8">
-							로그인하여 훈련을 시작하세요!
+							Login to start your training!
 						</p>
 						<Link
 							href="/login"
 							className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-success-foreground bg-primary hover:opacity-90 transition-opacity"
 						>
-							훈련 시작하기
+							Start Training
 						</Link>
 					</div>
 				)}

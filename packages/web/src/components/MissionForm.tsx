@@ -27,7 +27,7 @@ export default function MissionForm({ mission }: MissionFormProps) {
 		} catch (err) {
 			console.error(err);
 			setError(
-				"AI 응답을 생성하는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+				"An error occurred while generating the AI response. Please try again later.",
 			);
 		} finally {
 			setLoading(false);
@@ -42,7 +42,7 @@ export default function MissionForm({ mission }: MissionFormProps) {
 						htmlFor="input"
 						className="block text-sm font-medium text-muted-foreground mb-2"
 					>
-						입력 데이터
+						Input Data
 					</label>
 					<textarea
 						id="input"
@@ -66,10 +66,10 @@ export default function MissionForm({ mission }: MissionFormProps) {
 					{loading ? (
 						<div className="flex items-center justify-center gap-2">
 							<div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-							처리 중...
+							Processing...
 						</div>
 					) : (
-						"AI에게 부탁하기"
+						"Ask AI"
 					)}
 				</button>
 			</form>
@@ -82,7 +82,9 @@ export default function MissionForm({ mission }: MissionFormProps) {
 
 			{output && (
 				<div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-					<h3 className="text-xl font-bold text-foreground">✨ AI 훈련 결과</h3>
+					<h3 className="text-xl font-bold text-foreground">
+						✨ AI Training Result
+					</h3>
 					<div className="bg-card-background p-6 rounded-xl shadow-sm border border-card-border whitespace-pre-wrap text-foreground leading-relaxed">
 						{output}
 					</div>
@@ -95,7 +97,7 @@ export default function MissionForm({ mission }: MissionFormProps) {
 						}}
 						className="inline-flex items-center text-primary font-medium hover:underline gap-2"
 					>
-						{copied ? "복사 완료! ✨" : "복사하기 📋"}
+						{copied ? "Copied! ✨" : "Copy to Clipboard 📋"}
 					</button>
 				</div>
 			)}
