@@ -236,3 +236,90 @@ export const isValidStudyContent = (item: unknown): item is StudyContent => {
 			return false;
 	}
 };
+
+/**
+ * User levels for the AI Office Worker Training Center
+ */
+export type UserLevel = "Beginner" | "Intern" | "Worker";
+
+/**
+ * User profile information
+ */
+export interface User {
+	userId: string;
+	email: string;
+	completedMissions: string[];
+	level: UserLevel;
+	createdAt: string;
+}
+
+/**
+ * Mission metadata
+ */
+export interface Mission {
+	missionId: string;
+	title: string;
+	description: string;
+	promptSystem: string;
+	uiConfig: {
+		inputPlaceholder: string;
+		icon: string;
+	};
+}
+
+/**
+ * User submission record
+ */
+export interface Submission {
+	submissionId: string;
+	userId: string;
+	missionId: string;
+	inputText: string;
+	outputText: string;
+	createdAt: string;
+}
+
+export const calculateLevel = (completedMissionsCount: number): UserLevel => {
+	if (completedMissionsCount >= 3) return "Worker";
+	if (completedMissionsCount >= 1) return "Intern";
+	return "Beginner";
+};
+
+export * from "./ai-service";
+
+/**
+ * DynamoDB item for User
+ */
+export interface DynamoDBUserItem {
+	userId: string;
+	email: string;
+	completedMissions: string[];
+	level: string;
+	createdAt: string;
+}
+
+/**
+ * DynamoDB item for Mission
+ */
+export interface DynamoDBMissionItem {
+	missionId: string;
+	title: string;
+	description: string;
+	promptSystem: string;
+	uiConfig: {
+		inputPlaceholder: string;
+		icon: string;
+	};
+}
+
+/**
+ * DynamoDB item for Submission
+ */
+export interface DynamoDBSubmissionItem {
+	submissionId: string;
+	userId: string;
+	missionId: string;
+	inputText: string;
+	outputText: string;
+	createdAt: string;
+}
