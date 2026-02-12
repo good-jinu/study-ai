@@ -50,6 +50,12 @@ export default $config({
 				},
 				environment: {
 					APP_AWS_REGION: process.env.APP_AWS_REGION ?? "us-east-1",
+					GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID ?? "",
+					GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ?? "",
+					AUTH_SECRET: process.env.AUTH_SECRET ?? "",
+					NEXTAUTH_URL:
+						process.env.NEXTAUTH_URL ??
+						(process.env.WEB_DOMAIN ? `https://${process.env.WEB_DOMAIN}` : ""),
 				},
 				path: "packages/web",
 				link: [contentsTable, mediaBucket],
