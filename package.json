@@ -15,11 +15,11 @@
 		"dev-remove": "sst remove --stage development"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2",
-		"@types/node": "^20",
-		"typescript": "^5"
+		"@biomejs/biome": "^2.3.14",
+		"@types/node": "^20.19.33",
+		"typescript": "^5.9.3"
 	},
 	"dependencies": {
-		"sst": "^3.17"
+		"sst": "^3.17.38"
 	}
 }
